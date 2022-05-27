@@ -8,7 +8,7 @@ import FormAuth from '../components/FormAuth.vue'
                 Sign In
             </h1>
 
-            <FormAuth typeForm="sign-in"/>
+            <FormAuth typeForm="sign-in" />
         </section>
 
     </main>

@@ -18,14 +18,7 @@
     &__link{
         font-size: 1.8rem;
         &.router-link-active {
-            color: #fff;
-            padding: .5rem;
-            background-color: rgb(230, 37, 66);
-            border-radius: .5rem;
-            -webkit-border-radius: .5rem;
-            -moz-border-radius: .5rem;
-            -ms-border-radius: .5rem;
-            -o-border-radius: .5rem;
+            color: rgb(230, 37, 66);
         }
         transition: ease-in-out .3s;
         -webkit-transition: ease-in-out .3s;
