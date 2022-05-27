@@ -1,0 +1,33 @@
+.form-auth{
+    display: flex;
+    flex-direction: column;
+
+    &__input{
+        border: 0;
+        padding: 1rem 2rem;
+        outline: none;
+        background-color: aliceblue;
+        margin-bottom: 2rem;
+        border-radius: 2rem;
+        font-size: 1.6rem;
+        -webkit-border-radius: 2rem;
+        -moz-border-radius: 2rem;
+        -ms-border-radius: 2rem;
+        -o-border-radius: 2rem;
+    }
+
+    &__button{
+        padding: 1rem;
+        cursor: pointer;
+        border: none;
+        font-size: 1.6rem;
+        font-weight: bold;
+        background-color: rgb(230, 37, 66);
+        color: #fff;
+        border-radius: 2rem;
+        -webkit-border-radius: 2rem;
+        -moz-border-radius: 2rem;
+        -ms-border-radius: 2rem;
+        -o-border-radius: 2rem;
+}
+}

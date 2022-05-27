@@ -1,0 +1,24 @@
+.auth-page{
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__title{
+        font-size: 2.8rem;
+        margin-bottom: 2rem;
+        //radial gradient
+        background: radial-gradient(circle,  rgb(230, 37, 66) 80%,  rgb(17, 88, 132));
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    
+    }
+
+    &__section-auth{
+        width: 60%;
+    }
+}
