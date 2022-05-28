@@ -6,20 +6,26 @@
         border: 0;
         padding: 1rem 2rem;
         outline: none;
+        margin-top: 2rem;
         background-color: aliceblue;
-        margin-bottom: 2rem;
         border-radius: 2rem;
         font-size: 1.6rem;
         -webkit-border-radius: 2rem;
         -moz-border-radius: 2rem;
         -ms-border-radius: 2rem;
         -o-border-radius: 2rem;
-    }
+
+        &.error{
+            border: 2px solid rgb(244, 133, 149);
+            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }
+}
 
     &__button{
         padding: 1rem;
         cursor: pointer;
         border: none;
+        margin-top: 2rem;
         font-size: 1.6rem;
         font-weight: bold;
         background-color: rgb(230, 37, 66);
@@ -29,5 +35,20 @@
         -moz-border-radius: 2rem;
         -ms-border-radius: 2rem;
         -o-border-radius: 2rem;
+    }
 }
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
