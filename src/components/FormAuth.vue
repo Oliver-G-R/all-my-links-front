@@ -1,17 +1,19 @@
 <script  lang="ts" setup>
-    import { reactive, ref } from 'vue'
+    import { reactive, computed } from 'vue'
     import { useValidateAuthForm } from '../composables/useValidateAuthForm'
     import Alert from './Alert.vue'
-    import authServices from '../services/Auth'
     import { IinputData } from '../models/FormAuth/index'
+    import { useStore } from 'vuex'
+    import { IState } from '../store/index'
 
     interface Props{
         typeForm: 'sign-in' | 'sign-up'
     }
 
-    const props = defineProps<Props>()
+    const store = useStore<IState>()
+    const error = computed(() => store.state.user.error)
 
-    const error = ref('')
+    const props = defineProps<Props>()
 
     const inputData = reactive<IinputData>({
         email: '',
@@ -23,40 +25,36 @@
 
     const { v$, state } = useValidateAuthForm(inputData)
 
-    const setErrors = (err: Array<string> | string) => {
-        error.value = typeof err === 'string'
-            ? err
-            : err[0]
-    }
-
-    const checkAllErros = ():boolean => {
+    const validFields = ():boolean => {
         if (props.typeForm === 'sign-up') {
             if (v$.value.nickName.$error || v$.value.password.$error || v$.value.email.$error || v$.value.repeatPassword.$error) {
                 return false
             }
             return true
         } else {
-            if (!v$.value.nickNameOrEmail.$error || !v$.value.password.$error) {
-                return true
+            if (v$.value.nickNameOrEmail.$error || v$.value.password.$error) {
+                return false
             }
-            return false
+            return true
         }
     }
 
     const handleSubmit = async () => {
         v$.value.$validate()
-        const validErrors = checkAllErros()
+        const validErrors = validFields()
+
         if (validErrors) {
             if (props.typeForm === 'sign-up') {
-                const response = await authServices.signUp(inputData)
-                if (response.token) {
-                    // TODO: SET TOKEN
-                } else setErrors(response.message)
+                store.dispatch('user/signUp', {
+                    nickName: inputData.nickName,
+                    password: inputData.password,
+                    email: inputData.email
+                })
             } else if (props.typeForm === 'sign-in') {
-                const response = await authServices.signIn(inputData)
-                if (response.token) {
-                    // TODO: SET TOKEN
-                } else setErrors(response.message)
+                store.dispatch('user/signIn', {
+                    nickNameOrEmail: state.nickNameOrEmail,
+                    password: state.password
+                })
             }
         }
     }
@@ -67,7 +65,6 @@
     <form class="form-auth" @submit.prevent="handleSubmit">
         <Alert
             v-if="error"
-            @closeAlert="(err) => error = err"
             :message="error"/>
         <input
             v-if="props.typeForm === 'sign-in'"

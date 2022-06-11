@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FormAuth from '../components/FormAuth.vue'
+
 </script>
 <template>
     <main class="container auth-page">

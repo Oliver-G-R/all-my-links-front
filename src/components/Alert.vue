@@ -1,24 +1,28 @@
 <script lang="ts" setup>
+    import { IState } from '../store/index'
+    import { useStore } from 'vuex'
+
+    const store = useStore<IState>()
+
     interface Props{
-        message: string
+        message: string | string[]
     }
 
-    interface Emit{
-        (e: 'closeAlert', err: string): void
-    }
-
-    const emit = defineEmits<Emit>()
     const props = defineProps<Props>()
 </script>
 
 <template>
     <div class="alert">
         <p class="alert__title">
-            {{ props.message  }}
+            {{
+                typeof props.message === 'string'
+                    ? props.message
+                    : props.message[0]
+            }}
         </p>
         <button
             class="alert__close-btn"
-            @click="() => emit('closeAlert', '')">
+            @click="() => store.commit('user/setError', '')">
             x
         </button>
     </div>

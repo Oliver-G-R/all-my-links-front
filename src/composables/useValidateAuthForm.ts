@@ -2,7 +2,6 @@ import useValidate from '@vuelidate/core'
 import { required, email, helpers, sameAs, maxLength, minLength } from '@vuelidate/validators'
 import { IinputData } from '../models/FormAuth/index'
 import { computed } from 'vue'
-
 export const useValidateAuthForm = (state: IinputData) => {
     const nickNameRegex = helpers.regex(/^[a-z0-9_.]+$/)
 
@@ -12,8 +11,7 @@ export const useValidateAuthForm = (state: IinputData) => {
             nickNameRegex: helpers.withMessage('The nick name must have only lowercase letters and numbers ', nickNameRegex)
         },
         nickNameOrEmail: {
-            required: helpers.withMessage('This nickNameOrEmail is required', required),
-            nickNameRegex: helpers.withMessage('The nick name must have only lowercase letters and numbers ', nickNameRegex)
+            required: helpers.withMessage('This nickNameOrEmail is required', required)
         },
         email: {
             required: helpers.withMessage('This email is required', required),
