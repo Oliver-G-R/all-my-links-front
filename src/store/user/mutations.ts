@@ -1,12 +1,11 @@
 import { MutationTree } from 'vuex'
-import { IResponseUser } from '../../models/Auth/Auth'
 import { UserState } from './state'
 
 const mutation: MutationTree<UserState> = {
-    setDataUser (state, user:IResponseUser) {
+    setDataUser (state, user) {
         state.user = {
             token: user.token,
-            isActive: true
+            isActive: user.isActive
         }
     },
     setError (state, error:string) {

@@ -16,7 +16,10 @@ const actions: ActionTree<UserState, IState> = {
             })
 
             window.localStorage.setItem(TOKEN_USER, response.data.token)
-            commit('setDataUser', response.data)
+            commit('setDataUser', {
+                token: response.data.token,
+                isActive: true
+            })
             router.push('/')
         } catch (error) {
             commit('setError', error.response.data.message)
@@ -32,7 +35,10 @@ const actions: ActionTree<UserState, IState> = {
             })
 
             window.localStorage.setItem(TOKEN_USER, response.data.token)
-            commit('setDataUser', response.data)
+            commit('setDataUser', {
+                token: response.data.token,
+                isActive: true
+            })
             router.push('/')
         } catch (error) {
             commit('setError', error.response.data.message)
@@ -45,7 +51,7 @@ const actions: ActionTree<UserState, IState> = {
             token: null,
             isActive: false
         })
-        window.location.reload()
+        router.push('/signIn')
     },
 
     getToken ({ commit }) {

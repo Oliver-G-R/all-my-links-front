@@ -3,7 +3,6 @@ export interface UserState {
         token: string | null,
         isActive: boolean,
     },
-    isLoading: boolean,
     error: string | null
 }
 
@@ -13,7 +12,6 @@ const state = (): UserState => {
             token: null,
             isActive: false
         },
-        isLoading: true,
         error: null
     }
 }

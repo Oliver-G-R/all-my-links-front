@@ -18,11 +18,21 @@ const routes:RouteRecordRaw[] = [
   {
     path: '/signIn',
     name: 'sign-in',
+    beforeEnter: (to, from, next) => {
+      if (store.getters['user/stateActivUser']) {
+        next('/')
+      } else next()
+    },
     component: SignIn
   },
   {
     path: '/signUp',
     name: 'sign-up',
+    beforeEnter: (to, from, next) => {
+      if (store.getters['user/stateActivUser']) {
+        next('/')
+      } else next()
+    },
     component: SignUp
   },
   {
@@ -41,23 +51,13 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth) {
-    if (!activUser) {
+    if (activUser) { next() } else {
       next({
         path: '/signIn'
       })
-    } else {
-      next()
     }
-  }
-
-  if (to.name === 'sign-in' || to.name === 'sign-up') {
-    if (activUser) {
-      next({
-        path: '/'
-      })
-    } else {
-      next()
-    }
+  } else {
+    next()
   }
 })
 
