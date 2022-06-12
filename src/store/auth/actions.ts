@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import { UserState } from './state'
+import { AuthState } from './state'
 import { IState } from '../index'
 import { linksApi } from '../../axios/index'
 import { ISignIn, ISignUp } from '../../models/Auth/Auth'
@@ -7,7 +7,7 @@ import { TOKEN_USER } from '../../constants/auth'
 import { getAccessToken } from '../../helpers/validToken'
 import router from '../../router/index.router'
 
-const actions: ActionTree<UserState, IState> = {
+const actions: ActionTree<AuthState, IState> = {
     async signIn ({ commit }, payload:ISignIn) {
         try {
             const response = await linksApi.post('/auth/signIn', {

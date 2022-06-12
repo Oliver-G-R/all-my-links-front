@@ -1,9 +1,9 @@
 import { createStore } from 'vuex'
-import userModule from './user/index'
-import { UserState } from './user/state'
+import userModule from './auth/index'
+import { AuthState } from './auth/state'
 
 export interface IState {
-    user: UserState
+    user: AuthState
 }
 
 export const store = createStore<IState>({

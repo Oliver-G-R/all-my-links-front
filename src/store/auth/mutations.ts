@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex'
-import { UserState } from './state'
+import { AuthState } from './state'
 
-const mutation: MutationTree<UserState> = {
+const mutation: MutationTree<AuthState> = {
     setDataUser (state, user) {
         state.user = {
             token: user.token,

@@ -1,4 +1,4 @@
-export interface UserState {
+export interface AuthState {
     user: {
         token: string | null,
         isActive: boolean,
@@ -6,7 +6,7 @@ export interface UserState {
     error: string | null
 }
 
-const state = (): UserState => {
+const state = (): AuthState => {
     return {
         user: {
             token: null,
