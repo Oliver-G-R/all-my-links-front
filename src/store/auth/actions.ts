@@ -21,7 +21,7 @@ const actions: ActionTree<AuthState, IState> = {
                 isActive: true,
                 id: response.data.user.id
             })
-            router.push('/')
+            router.push(`/${response.data.user.nickName}`)
         } catch (error) {
             commit('setError', error.response.data.message)
         }
@@ -41,7 +41,7 @@ const actions: ActionTree<AuthState, IState> = {
                 isActive: true,
                 id: response.data.user.id
             })
-            router.push('/')
+            router.push(`/${response.data.user.nickName}`)
         } catch (error) {
             commit('setError', error.response.data.message)
         }

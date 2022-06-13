@@ -11,11 +11,11 @@
         ">
             <li v-for="user in users" :key="user.id">
                 <router-link :to="{
-                        name: 'profile',
-                        params: {
-                            nickName: user.nickName
-                        }
-                    }"  >{{user.nickName}}</router-link>
+                    name: 'profile',
+                    params: {
+                        nickName: user.nickName
+                    }
+                }"  >{{user.nickName}}</router-link>
 
                 <div v-for="link in user.links" :key="link.id" >
                     {{

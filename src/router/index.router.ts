@@ -17,6 +17,12 @@ const routes:RouteRecordRaw[] = [
   },
 
   {
+    path: '/:nickName',
+    name: 'profile',
+    component: Profile
+  },
+
+  {
     path: '/signIn',
     name: 'sign-in',
     beforeEnter: (to, from, next) => {
@@ -36,11 +42,7 @@ const routes:RouteRecordRaw[] = [
     },
     component: SignUp
   },
-  {
-    path: '/profile/:nickName',
-    name: 'profile',
-    component: Profile
-  },
+
   {
     path: '/settings/profile',
     name: 'profile-edit',
