@@ -3,8 +3,26 @@ interface Ilinks{
     link: string
     socialName: string
     socialIcon: string
+    id: string
+}
+
+interface Iuser{
+    createdAt: Date
+    email: string
+    id: string
+    links: Ilinks[]
+    nickName: string
+    updatedAt: Date
+}
+
+interface IglobalUsers {
+    id: string
+    nickName: string
+    links: Ilinks[]
 }
 
 export type {
-    Ilinks
+    Ilinks,
+    Iuser,
+    IglobalUsers
 }

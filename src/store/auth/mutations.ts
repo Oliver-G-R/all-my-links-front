@@ -5,7 +5,8 @@ const mutation: MutationTree<AuthState> = {
     setDataUser (state, user) {
         state.user = {
             token: user.token,
-            isActive: user.isActive
+            isActive: user.isActive,
+            id: user.id
         }
     },
     setError (state, error:string) {

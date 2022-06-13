@@ -1,4 +1,4 @@
-import { Ilinks } from './User'
+import { Iuser } from './User'
 
 interface ISignIn {
     password: string
@@ -20,14 +20,7 @@ interface IResponseError {
 
 interface IResponseUser extends IResponseError {
     token: string
-    user: {
-        createdAt: Date
-        email: string
-        id: string
-        links: Ilinks[]
-        nickName: string
-        updatedAt: Date
-    }
+    user: Iuser
 }
 
 export type{

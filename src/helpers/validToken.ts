@@ -1,7 +1,8 @@
-import jwtDecode, { JwtPayload } from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 import { TOKEN_USER } from '../constants/auth'
+import { IPayloadToken } from '../models/payloadToken'
 
-const getAccessToken = () => {
+const getAccessToken = (): string | null => {
   const userToken = window.localStorage.getItem(TOKEN_USER)
   if (!userToken) {
     return null
@@ -10,10 +11,15 @@ const getAccessToken = () => {
 }
 
 const expiredToke = (token: string):boolean => {
-  const dataToken = jwtDecode(token)
-  const { exp } = dataToken as JwtPayload
+  const dataToken = jwtDecode<IPayloadToken>(token)
+  const { exp } = dataToken
   const currentDate = (Date.now() + 60) / 1000
-  return exp as number < currentDate
+  return exp < currentDate
+}
+
+const getIDFromToken = (token:string):string => {
+  const dataToken = jwtDecode<IPayloadToken>(token)
+  return dataToken.id
 }
 
 const logout = () => {
@@ -22,5 +28,6 @@ const logout = () => {
 
 export {
   getAccessToken,
+  getIDFromToken,
   logout
 }
