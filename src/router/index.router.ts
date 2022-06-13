@@ -19,7 +19,7 @@ const routes:RouteRecordRaw[] = [
     path: '/signIn',
     name: 'sign-in',
     beforeEnter: (to, from, next) => {
-      if (store.getters['user/stateActivUser']) {
+      if (store.getters['auth/stateActivUser']) {
         next('/')
       } else next()
     },
@@ -29,7 +29,7 @@ const routes:RouteRecordRaw[] = [
     path: '/signUp',
     name: 'sign-up',
     beforeEnter: (to, from, next) => {
-      if (store.getters['user/stateActivUser']) {
+      if (store.getters['auth/stateActivUser']) {
         next('/')
       } else next()
     },
@@ -47,7 +47,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const activUser = store.getters['user/stateActivUser']
+  const activUser = store.getters['auth/stateActivUser']
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth) {

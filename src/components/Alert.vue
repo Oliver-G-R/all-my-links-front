@@ -22,7 +22,7 @@
         </p>
         <button
             class="alert__close-btn"
-            @click="() => store.commit('user/setError', '')">
+            @click="() => store.commit('auth/setError', '')">
             x
         </button>
     </div>

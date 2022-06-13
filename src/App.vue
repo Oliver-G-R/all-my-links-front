@@ -7,7 +7,7 @@
   const store = useStore()
 
   onMounted(() => {
-    store.dispatch('user/getToken')
+    store.dispatch('auth/getToken')
   })
 </script>
 

@@ -3,7 +3,7 @@
     import { computed } from 'vue'
     const store = useStore()
 
-    const isActivUser = computed(() => store.getters['user/stateActivUser'])
+    const isActivUser = computed(() => store.getters['auth/stateActivUser'])
 </script>
 
 <template>
@@ -19,7 +19,7 @@
                     <router-link class="header__link" to="/signUp">Sign Up</router-link>
                 </li>
                 <li v-if="isActivUser" >
-                    <button @click="store.dispatch('user/logout')">
+                    <button @click="store.dispatch('auth/logout')">
                         Logout
                     </button>
                 </li>

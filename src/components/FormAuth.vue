@@ -11,7 +11,7 @@
     }
 
     const store = useStore<IState>()
-    const error = computed(() => store.state.user.error)
+    const error = computed(() => store.state.auth.error)
 
     const props = defineProps<Props>()
 
@@ -45,13 +45,13 @@
 
         if (validErrors) {
             if (props.typeForm === 'sign-up') {
-                store.dispatch('user/signUp', {
+                store.dispatch('auth/signUp', {
                     nickName: inputData.nickName,
                     password: inputData.password,
                     email: inputData.email
                 })
             } else if (props.typeForm === 'sign-in') {
-                store.dispatch('user/signIn', {
+                store.dispatch('auth/signIn', {
                     nickNameOrEmail: state.nickNameOrEmail,
                     password: state.password
                 })
