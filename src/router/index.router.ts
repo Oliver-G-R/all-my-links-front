@@ -3,6 +3,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../pages/Home.vue'
 import SignUp from '../pages/SignUp.vue'
 import SignIn from '../pages/SignIn.vue'
+import Profile from '../pages/Profile.vue'
+import ProfileEdit from '../pages/ProfileEdit.vue'
+
 import Page404 from '../pages/404.vue'
 import { store } from '../store/index'
 
@@ -11,10 +14,8 @@ const routes:RouteRecordRaw[] = [
     path: '/',
     name: 'home',
     component: Home
-    /* meta: {
-      requiresAuth: true
-    } */
   },
+
   {
     path: '/signIn',
     name: 'sign-in',
@@ -34,6 +35,19 @@ const routes:RouteRecordRaw[] = [
       } else next()
     },
     component: SignUp
+  },
+  {
+    path: '/profile/:nickName',
+    name: 'profile',
+    component: Profile
+  },
+  {
+    path: '/settings/profile',
+    name: 'profile-edit',
+    component: ProfileEdit,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/:pathMatch(.*)*',

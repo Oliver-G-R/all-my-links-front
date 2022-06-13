@@ -58,6 +58,7 @@ const actions: ActionTree<AuthState, IState> = {
     },
 
     getToken ({ commit }) {
+       try {
         const token = getAccessToken()
 
         if (token) {
@@ -68,6 +69,9 @@ const actions: ActionTree<AuthState, IState> = {
                 id
             })
         }
+       } catch (error) {
+        console.log(error)
+       }
     }
 }
 

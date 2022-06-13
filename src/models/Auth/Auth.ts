@@ -18,7 +18,7 @@ interface IResponseError {
 
 }
 
-interface IResponseUser extends IResponseError {
+interface IResponseAuth extends IResponseError {
     token: string
     user: Iuser
 }
@@ -26,6 +26,6 @@ interface IResponseUser extends IResponseError {
 export type{
     ISignIn,
     ISignUp,
-    IResponseUser,
+    IResponseAuth as IResponseUser,
     IResponseError
 }
