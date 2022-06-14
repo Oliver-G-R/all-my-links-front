@@ -1,17 +1,14 @@
 <script lang="ts" setup>
-    import { useRoute } from 'vue-router'
     import { ref, computed, watch } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
-    import { useGetUserByNickName } from '../composables/useGetUserByNickName'
+    import { useGetUserByUrl } from '../composables/useGetUserByUrl'
 
-    const route = useRoute()
     const store = useStore<IState>()
 
     const isOwner = ref(false)
 
-    const routeNickName = route.params.nickName
-    const { user, loading } = useGetUserByNickName(routeNickName as string)
+    const { user, loading } = useGetUserByUrl()
 
     const userIdWithSession = computed(() => store.state.auth.user.id)
 

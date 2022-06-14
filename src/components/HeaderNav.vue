@@ -6,6 +6,11 @@
 
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
     const isActivUser = computed(() => store.getters['auth/stateActivUser'])
+
+    const logout = () => {
+        store.dispatch('auth/logout')
+        store.commit('user/setOwnerProfileUser', {})
+    }
 </script>
 
 <template>
@@ -21,12 +26,17 @@
                     <router-link class="header__link" to="/signUp">Sign Up</router-link>
                 </li>
                 <li v-if="isActivUser" >
-                    <button @click="store.dispatch('auth/logout')">
+                    <button @click="logout">
                         Logout
                     </button>
                 </li>
-                <li v-if="isActivUser">
-                    <router-link  to="/settings/profile">
+                <li v-if="isActivUser && ownerUser.nickName">
+                    <router-link :to="{
+                        name: 'profile',
+                        params: {
+                            nickName: ownerUser.nickName
+                        }
+                    }">
                         <img  v-if="ownerUser.avatar_url" :src="ownerUser.avatar_url" alt="avatar">
                         <span v-else>{{ownerUser.nickName}}</span>
                     </router-link>

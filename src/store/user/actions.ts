@@ -29,9 +29,6 @@ const actions: ActionTree<UserState, IState> = {
                     Authorization: `Bearer ${token}`
                 }
             })
-
-            console.log(response.data)
-
             commit('setOwnerProfileUser', response.data)
         } catch (error) {
 
