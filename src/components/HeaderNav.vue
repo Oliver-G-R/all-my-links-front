@@ -1,8 +1,10 @@
 <script lang="ts" setup>
     import { useStore } from 'vuex'
     import { computed } from 'vue'
-    const store = useStore()
+    import { IState } from '../store/index'
+    const store = useStore<IState>()
 
+    const ownerUser = computed(() => store.state.user.profileOwnerUser)
     const isActivUser = computed(() => store.getters['auth/stateActivUser'])
 </script>
 
@@ -23,7 +25,27 @@
                         Logout
                     </button>
                 </li>
+                <li v-if="isActivUser">
+                    <router-link  to="/settings/profile">
+                        <img  v-if="ownerUser.avatar_url" :src="ownerUser.avatar_url" alt="avatar">
+                        <span v-else>{{ownerUser.nickName}}</span>
+                    </router-link>
+                </li>
             </ul>
         </nav>
     </header>
 </template>
+
+<style lang="scss" scoped>
+   ul{
+    display: flex;
+    align-items: center;
+
+    li  img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+   }
+</style>

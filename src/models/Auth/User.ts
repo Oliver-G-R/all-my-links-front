@@ -1,5 +1,3 @@
-import { IResponseError } from './Auth'
-
 interface Ilinks{
     titleLink: string
     link: string
@@ -8,13 +6,15 @@ interface Ilinks{
     id: string
 }
 
-interface Iuser extends IResponseError{
+interface Iuser{
     createdAt: Date
     email: string
     id: string
     links: Ilinks[]
     nickName: string
     updatedAt: Date
+    avatar_public_id: string | null
+    avatar_url: string | null
 }
 
 interface IglobalUsers {

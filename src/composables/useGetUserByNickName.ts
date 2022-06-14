@@ -9,8 +9,7 @@ export const useGetUserByNickName = (nickName: string) => {
     const fetchUser = async () => {
         const userResponse = await getUserByNickName(nickName as string)
         loading.value = false
-
-        if (!userResponse.message) {
+        if (userResponse.nickName) {
             user.value = userResponse
         }
     }

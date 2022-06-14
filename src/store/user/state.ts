@@ -21,7 +21,9 @@ const state = (): UserState => {
             links: [],
             nickName: '',
             updatedAt: new Date(),
-            createdAt: new Date()
+            createdAt: new Date(),
+            avatar_public_id: null,
+            avatar_url: null
         }
     }
 }

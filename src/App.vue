@@ -1,13 +1,17 @@
 <script setup lang="ts">
-  import { onMounted } from 'vue'
+  import { onMounted, computed } from 'vue'
   import { useStore } from 'vuex'
 
   import './sass/main.scss'
   import HeaderNav from './components/HeaderNav.vue'
-  const store = useStore()
-
+  import { IState } from './store/index'
+  const store = useStore<IState>()
+  const token = computed(() => store.state.auth.user.token)
   onMounted(() => {
     store.dispatch('auth/getToken')
+    if (token.value) {
+        store.dispatch('user/getOwnerProfileUser', token.value)
+    }
   })
 </script>
 
