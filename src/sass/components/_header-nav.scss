@@ -1,7 +1,9 @@
 .header{
+    background-color: rgb(17, 88, 132);
     &__logo{
         font-weight: bold;
         font-size: 2.2rem;
+        color: #fff;
     }
     &__nav{
         display: flex;
