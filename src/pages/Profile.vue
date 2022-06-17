@@ -1,14 +1,20 @@
 <script lang="ts" setup>
-    import { computed } from 'vue'
+    import { computed, ref } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
     import CardLink from '../components/CardLink.vue'
     import { useGetUserByUrl } from '../composables/useGetUserByUrl'
-
+    import Modal from '../components/Modal.vue'
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
+    const activeModalAddLinks = ref(false)
 
     const { user, loading } = useGetUserByUrl()
+
+    const activModal = () => {
+        activeModalAddLinks.value = !activeModalAddLinks.value
+        document.querySelector('body')?.classList.toggle('modal-open')
+    }
 
     const isOwner = computed(() => {
         return userIdWithSession.value === user.value?.id
@@ -40,6 +46,7 @@
                 <div class="section-profile__content-btns">
                     <button
                         v-if="isOwner"
+                        @click="activModal"
                         class="section-profile__btn-profile section-profile__btn-profile--add" >
                         +
                     </button>
@@ -62,6 +69,13 @@
                 :link = "item.link"
             />
         </section>
+
+        <Modal
+            v-if="activeModalAddLinks"
+            :activModal="activModal"
+            title="Add new social link">
+            BODY
+        </Modal>
 
     </main>
 </template>
