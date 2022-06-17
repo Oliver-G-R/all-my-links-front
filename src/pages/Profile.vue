@@ -2,6 +2,7 @@
     import { computed } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
+    import CardLink from '../components/CardLink.vue'
     import { useGetUserByUrl } from '../composables/useGetUserByUrl'
 
     const store = useStore<IState>()
@@ -17,6 +18,9 @@
 <template>
     <main>
         <p v-if="loading" > loading </p>
+        <p v-else-if="!loading && !user" >
+            No user found
+        </p>
 
         <section
             class="section-profile"
@@ -51,9 +55,13 @@
            </div>
         </section>
 
-        <p v-else>
-            No user found
-        </p>
+        <section v-if="user?.links" class="container section-profile-links">
+            <CardLink
+                v-for="item in user.links" :key="item.id"
+                :titleLink = "item.titleLink"
+                :link = "item.link"
+            />
+        </section>
 
     </main>
 </template>

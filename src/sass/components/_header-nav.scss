@@ -19,14 +19,8 @@
     
     &__link{
         font-size: 1.8rem;
-        &.router-link-active {
-            color: rgb(230, 37, 66);
-        }
+        color: #fff;
         transition: ease-in-out .3s;
-        -webkit-transition: ease-in-out .3s;
-        -moz-transition: ease-in-out .3s;
-        -ms-transition: ease-in-out .3s;
-        -o-transition: ease-in-out .3s;
-}
+    }
 
 }
