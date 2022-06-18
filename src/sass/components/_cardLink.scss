@@ -1,5 +1,26 @@
 .card-link{
-    background-color: rgb(244, 244, 244);
     padding: 2rem;
+    border: 1.5px solid rgb(236, 236, 236);
     border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    &__content-link{
+        line-height: 2.5rem;
+        a{
+            color:  rgb(17, 88, 132);
+        }
+        width: 230px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
+    }
+    h2{
+        font-size: 1.7rem;
+        font-weight: 500;
+    }
+    img{
+        margin-right: 2rem;
+        width: 4rem;
+    }
 }

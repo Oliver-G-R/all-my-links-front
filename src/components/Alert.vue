@@ -18,7 +18,7 @@
                 typeof props.message === 'string'
                     ? props.message
                     : props.message[0]
-            }}
+            }}ss
         </p>
         <button
             class="alert__close-btn"

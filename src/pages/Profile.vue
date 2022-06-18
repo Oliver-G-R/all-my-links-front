@@ -70,6 +70,7 @@
                 v-for="item in user.links" :key="item.id"
                 :titleLink = "item.titleLink"
                 :link = "item.link"
+                :socialIcon="item.socialIcon"
             />
         </section>
 
