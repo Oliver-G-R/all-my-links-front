@@ -2,23 +2,26 @@
     import { computed, ref } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
-    import CardLink from '../components/CardLink.vue'
+
     import { useGetUserByUrl } from '../composables/useGetUserByUrl'
+    import CardLink from '../components/CardLink.vue'
     import Modal from '../components/Modal.vue'
+    import FormLinks from '../components/FormLinks.vue'
+
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
     const activeModalAddLinks = ref(false)
+    const ownerUser = computed(() => store.state.user.profileOwnerUser)
 
-    const { user, loading } = useGetUserByUrl()
+    const { user: userPublic, loading } = useGetUserByUrl()
+    const isOwner = computed(() => userIdWithSession.value === userPublic.value?.id)
+    const user = computed(() => isOwner.value ? ownerUser.value : userPublic.value)
 
     const activModal = () => {
         activeModalAddLinks.value = !activeModalAddLinks.value
         document.querySelector('body')?.classList.toggle('modal-open')
     }
 
-    const isOwner = computed(() => {
-        return userIdWithSession.value === user.value?.id
-    })
 </script>
 
 <template>
@@ -74,7 +77,7 @@
             v-if="activeModalAddLinks"
             :activModal="activModal"
             title="Add new social link">
-            BODY
+            <FormLinks :closeModal="activModal" />
         </Modal>
 
     </main>

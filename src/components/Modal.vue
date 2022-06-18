@@ -10,7 +10,7 @@
         <div class="modal__container-modal">
             <header class="modal__header">
                 <h2>{{props.title}}</h2>
-                <button @click="props.activModal()">x</button>
+                <button class="modal__btn-close" @click="props.activModal()">Close</button>
             </header>
             <div class="moda__body">
                 <slot/>

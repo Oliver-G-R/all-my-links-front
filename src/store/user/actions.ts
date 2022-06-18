@@ -34,6 +34,7 @@ const actions: ActionTree<UserState, IState> = {
 
         }
     }
+
 }
 
 export default actions

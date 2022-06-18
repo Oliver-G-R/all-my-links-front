@@ -1,0 +1,49 @@
+.form-links{
+    display: flex;
+    flex-direction: column;
+    
+    &__input{
+        border: 0;
+        font-size: 1.5rem;
+        outline: none;
+        padding: 1rem;
+        background-color: rgb(245, 245, 245);
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        &--link{
+            color:  rgb(17, 88, 132);
+        }
+    }
+
+    &__btn-save{
+        border-radius: 2rem;
+        border: 0;
+        width: 10rem;
+        color: #fff;
+        background-color: rgb(17, 88, 132);
+        font-weight: 600;
+        padding: 1rem;
+        margin-left: auto;
+    }
+
+    &__container-social-icons{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(1rem, 1fr));
+        gap: 2rem;
+        justify-items: center;
+        margin: 2rem 0;
+
+        img{
+            width: 5rem;
+            height: 5rem;
+            padding: .5rem;
+            background-color: transparent;
+            border-radius: 50%;
+            transition:  all .3s ease-in-out;
+
+            &.activ{
+                background-color: rgba(17, 88, 132, 0.251);
+            }
+        }
+    }
+}

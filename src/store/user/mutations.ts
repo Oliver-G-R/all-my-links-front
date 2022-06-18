@@ -9,6 +9,10 @@ const mutation: MutationTree<UserState> = {
     setGlobalUsers (state, users) {
         state.globalUsers.loading = users.loading
         state.globalUsers.users = users.users
+    },
+
+    setLinksUser (state, link) {
+        state.profileOwnerUser.links.push(link)
     }
 }
 

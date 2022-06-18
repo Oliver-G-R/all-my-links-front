@@ -1,10 +1,14 @@
+import { IResponseError } from './Auth'
+
 interface Ilinks{
     titleLink: string
     link: string
-    socialName: string
     socialIcon: string
     id: string
 }
+
+interface ILinksResponse extends Ilinks, IResponseError {}
+interface IstateLinks extends Omit<Ilinks, 'id'>{}
 
 interface Iuser{
     createdAt: Date
@@ -26,5 +30,7 @@ interface IglobalUsers {
 export type {
     Ilinks,
     Iuser,
-    IglobalUsers
+    ILinksResponse,
+    IglobalUsers,
+    IstateLinks
 }
