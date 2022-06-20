@@ -2,6 +2,7 @@
     import { computed, ref } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
+    import defaultProfileImage from '../assets/user.png'
 
     import { useGetUserByUrl } from '../composables/useGetUserByUrl'
     import CardLink from '../components/CardLink.vue'
@@ -38,10 +39,8 @@
                 <div class="section-profile__content">
                     <div class="section-profile__container-avatar">
                         <img
-                            v-if="user.avatar_url"
-                            :src="user.avatar_url"
+                            :src="user.avatar_url || defaultProfileImage"
                             alt="avatar">
-                        <span v-else> {{user.nickName[0]}} </span>
                     </div>
                     <h1>{{user.nickName}}</h1>
                 </div>

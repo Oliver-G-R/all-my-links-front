@@ -1,6 +1,6 @@
 import { linksApi } from '../axios/index'
 import { getAccessToken } from '../helpers/validToken'
-import { ILinksResponse, IstateLinks, Iuser } from '../models/Auth/User'
+import { ILinksResponse, IStateFieldsLinks, IStateFieldsUser, Iuser, IUserResponse } from '../models/Auth/User'
 
 const getUserByNickName = async (nickName:string): Promise <Iuser> => {
     try {
@@ -11,7 +11,7 @@ const getUserByNickName = async (nickName:string): Promise <Iuser> => {
     }
 }
 
-const createNewLink = async (link:IstateLinks): Promise<ILinksResponse> => {
+const createNewLink = async (link:IStateFieldsLinks): Promise<ILinksResponse> => {
     try {
         const response = await linksApi.post('/links', link, {
             headers: {
@@ -24,7 +24,21 @@ const createNewLink = async (link:IstateLinks): Promise<ILinksResponse> => {
     }
 }
 
+const updateProfile = async (user:IStateFieldsUser):Promise<IUserResponse> => {
+    try {
+        const response = await linksApi.put('/user/update-profile', user, {
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
 export {
     getUserByNickName,
-    createNewLink
+    createNewLink,
+    updateProfile
 }

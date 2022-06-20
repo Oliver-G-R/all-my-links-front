@@ -8,7 +8,7 @@ interface Ilinks{
 }
 
 interface ILinksResponse extends Ilinks, IResponseError {}
-interface IstateLinks extends Omit<Ilinks, 'id'>{}
+interface IStateFieldsLinks extends Omit<Ilinks, 'id'>{}
 
 interface Iuser{
     createdAt: Date
@@ -20,7 +20,12 @@ interface Iuser{
     avatar_public_id: string | null
     avatar_url: string | null
 }
-
+interface IUserResponse extends Iuser, IResponseError{}
+interface IStateFieldsUser {
+    nickName: string
+    email: string
+    avatar_url: string | null
+}
 interface IglobalUsers {
     id: string
     nickName: string
@@ -32,5 +37,7 @@ export type {
     Iuser,
     ILinksResponse,
     IglobalUsers,
-    IstateLinks
+    IStateFieldsLinks,
+    IStateFieldsUser,
+    IUserResponse
 }

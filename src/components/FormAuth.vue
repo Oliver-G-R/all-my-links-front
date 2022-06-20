@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-    import { reactive, toRefs } from 'vue'
+    import { onMounted, reactive, toRefs } from 'vue'
     import { useValidateAuthForm } from '../composables/useValidateAuthForm'
     import Alert from './Alert.vue'
     import { IinputData } from '../models/FormAuth/index'
@@ -59,6 +59,12 @@
             }
         }
     }
+
+    onMounted(() => {
+        if (error.value) {
+            error.value = ''
+        }
+    })
 
 </script>
 

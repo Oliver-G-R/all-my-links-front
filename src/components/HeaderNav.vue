@@ -2,11 +2,12 @@
     import { useStore } from 'vuex'
     import { computed } from 'vue'
     import { IState } from '../store/index'
+    import defaultProfileImage from '../assets/user.png'
+
     const store = useStore<IState>()
 
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
     const isActivUser = computed(() => store.getters['auth/stateActivUser'])
-
     const logout = () => {
         store.dispatch('auth/logout')
         store.commit('user/setOwnerProfileUser', {})
@@ -37,8 +38,7 @@
                             nickName: ownerUser.nickName
                         }
                     }">
-                        <img  v-if="ownerUser.avatar_url" :src="ownerUser.avatar_url" alt="avatar">
-                        <span v-else>{{ownerUser.nickName}}</span>
+                        <img :src="ownerUser.avatar_url || defaultProfileImage" alt="avatar">
                     </router-link>
                 </li>
             </ul>

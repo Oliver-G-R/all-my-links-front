@@ -26,6 +26,6 @@ interface IResponseAuth extends IResponseError {
 export type{
     ISignIn,
     ISignUp,
-    IResponseAuth as IResponseUser,
+    IResponseAuth,
     IResponseError
 }
