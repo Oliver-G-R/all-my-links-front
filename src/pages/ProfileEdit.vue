@@ -4,14 +4,18 @@
     import { computed, ref } from 'vue'
     import defaultProfileImage from '../assets/user.png'
     import { IStateFieldsUser } from '../models/Auth/User'
-    import { updateProfile } from '../services/User'
+    import { updateProfile, uploadAvatar } from '../services/User'
+    import { getError } from '../helpers/errors'
 
+    const errorUploadAvatar = ref('')
     const store = useStore<IState>()
     const dataOwner = computed(() => store.state.user.profileOwnerUser)
     const errorFieldSelected = ref('')
     const errorResponse = ref('')
+    const uploadFileImage = ref<File | null>()
     const imagePreview = ref<null | string>(null)
     const showNickName = computed(() => dataOwner.value.nickName)
+    const loadingUploadImage = ref(false)
 
     const fieldsProfile = computed<IStateFieldsUser>(() => ({
         nickName: dataOwner.value.nickName,
@@ -30,6 +34,7 @@
         if (uniqueFile && allowedExtensions.includes(uniqueFile.type)) {
             errorFieldSelected.value = ''
             const reader = new FileReader()
+            uploadFileImage.value = uniqueFile
             reader.onloadend = () => {
                 imagePreview.value = reader.result as string
             }
@@ -39,13 +44,27 @@
         }
     }
 
-    const updateProfileHandler = async () => {
-        const response = await updateProfile(fieldsProfile.value)
+    const upAvatar = async () => {
+        loadingUploadImage.value = true
+        const formData = new FormData()
+        formData.append('file', uploadFileImage.value as File)
+        const response = await uploadAvatar(formData)
+        loadingUploadImage.value = false
         if (response.message) {
-            errorResponse.value = typeof response.message === 'string'
-                    ? response.message
-                    : response.message[0]
-                    console.log(response)
+            errorUploadAvatar.value = getError(response.message)
+        } else {
+            imagePreview.value = null
+            uploadFileImage.value = null
+            store.commit('user/setProfileAvatar', response.avatar_url)
+        }
+    }
+
+    const updateProfileHandler = async () => {
+        uploadFileImage.value && !errorFieldSelected.value && upAvatar()
+        const response = await updateProfile(fieldsProfile.value)
+
+        if (response.message) {
+            errorResponse.value = getError(response.message)
         } else {
             store.commit('user/setOwnerProfileUser', response)
         }
@@ -57,6 +76,7 @@
             Profile {{showNickName}}
         </h1>
         {{errorResponse}}
+        {{errorUploadAvatar}}
         <section class="profile-edit__section-data">
 
             <label for="avatar-file-photo" class="profile-edit__content-avatar section-profile__container-avatar">
@@ -69,7 +89,8 @@
                     :src="imagePreview && !errorFieldSelected
                         ? imagePreview
                         : fieldsProfile.avatar_url || defaultProfileImage ">
-                <span>Editar</span>
+                <span v-if="!loadingUploadImage" >Editar</span>
+                <span v-else>Cargando...</span>
                 <input
                     @change="profileImageChange"
                     type="file"

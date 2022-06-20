@@ -1,6 +1,6 @@
 import { linksApi } from '../axios/index'
 import { getAccessToken } from '../helpers/validToken'
-import { ILinksResponse, IStateFieldsLinks, IStateFieldsUser, Iuser, IUserResponse } from '../models/Auth/User'
+import { IAvatarResponse, ILinksResponse, IStateFieldsLinks, IStateFieldsUser, Iuser, IUserResponse } from '../models/Auth/User'
 
 const getUserByNickName = async (nickName:string): Promise <Iuser> => {
     try {
@@ -37,8 +37,23 @@ const updateProfile = async (user:IStateFieldsUser):Promise<IUserResponse> => {
     }
 }
 
+const uploadAvatar = async (img:FormData):Promise<IAvatarResponse> => {
+    try {
+        const response = await linksApi.post('/user/upload-avatar', img, {
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
 export {
     getUserByNickName,
     createNewLink,
-    updateProfile
+    updateProfile,
+    uploadAvatar
 }

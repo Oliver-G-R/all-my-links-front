@@ -10,6 +10,9 @@ interface Ilinks{
 interface ILinksResponse extends Ilinks, IResponseError {}
 interface IStateFieldsLinks extends Omit<Ilinks, 'id'>{}
 
+interface IAvatarResponse extends IResponseError{
+    avatar_url: string
+}
 interface Iuser{
     createdAt: Date
     email: string
@@ -39,5 +42,6 @@ export type {
     IglobalUsers,
     IStateFieldsLinks,
     IStateFieldsUser,
-    IUserResponse
+    IUserResponse,
+    IAvatarResponse
 }

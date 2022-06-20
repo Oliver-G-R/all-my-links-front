@@ -3,6 +3,7 @@ import { UserState } from './state'
 import { IState } from '../index'
 import { linksApi } from '../../axios/index'
 import { IglobalUsers, Iuser } from '../../models/Auth/User'
+import { getAccessToken } from '../../helpers/validToken'
 
 const actions: ActionTree<UserState, IState> = {
     async getUsers ({ commit }, currentUserId: string) {
@@ -26,7 +27,7 @@ const actions: ActionTree<UserState, IState> = {
         try {
             const response = await linksApi.get<Iuser>('user/profile', {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${getAccessToken()}`
                 }
             })
             commit('setOwnerProfileUser', response.data)

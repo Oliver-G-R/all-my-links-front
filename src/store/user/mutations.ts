@@ -13,6 +13,10 @@ const mutation: MutationTree<UserState> = {
 
     setLinksUser (state, link) {
         state.profileOwnerUser.links.push(link)
+    },
+
+    setProfileAvatar (state, avatar_url:string) {
+        state.profileOwnerUser.avatar_url = avatar_url
     }
 }
 
