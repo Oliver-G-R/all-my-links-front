@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex'
 import { UserState } from './state'
-import { IState } from '../index'
+import { IState, store } from '../index'
 import { linksApi } from '../../axios/index'
 import { IglobalUsers, Iuser } from '../../models/Auth/User'
-import { getAccessToken } from '../../helpers/validToken'
-
+import { TOKEN_USER } from '../../constants/auth'
+import router from '../../router/index.router'
 const actions: ActionTree<UserState, IState> = {
     async getUsers ({ commit }, currentUserId: string) {
         const urlRequest = currentUserId
@@ -27,12 +27,20 @@ const actions: ActionTree<UserState, IState> = {
         try {
             const response = await linksApi.get<Iuser>('user/profile', {
                 headers: {
-                    Authorization: `Bearer ${getAccessToken()}`
+                    Authorization: `Bearer ${token}`
                 }
             })
             commit('setOwnerProfileUser', response.data)
         } catch (error) {
-
+            if (error.response.data.error === 'Not Found' || error.response.data.statusCode === 401) {
+                window.localStorage.removeItem(TOKEN_USER)
+                store.state.auth.user = {
+                    isActive: false,
+                    token: null,
+                    id: null
+                }
+                router.push('/signIn')
+            }
         }
     }
 
