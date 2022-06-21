@@ -6,43 +6,28 @@
     import { IStateFieldsUser } from '../models/Auth/User'
     import { updateProfile, uploadAvatar } from '../services/User'
     import { getError } from '../helpers/errors'
+    import { useLoadImage } from '../composables/useLoadImage'
+
+    const store = useStore<IState>()
 
     const errorUploadAvatar = ref('')
-    const store = useStore<IState>()
     const dataOwner = computed(() => store.state.user.profileOwnerUser)
-    const errorFieldSelected = ref('')
     const errorResponse = ref('')
-    const uploadFileImage = ref<File | null>()
-    const imagePreview = ref<null | string>(null)
     const showNickName = computed(() => dataOwner.value.nickName)
     const loadingUploadImage = ref(false)
+
+    const {
+        errorFieldSelected,
+        uploadFileImage,
+        imagePreview,
+        profileImageChange
+    } = useLoadImage()
 
     const fieldsProfile = computed<IStateFieldsUser>(() => ({
         nickName: dataOwner.value.nickName,
         email: dataOwner.value.email,
         avatar_url: dataOwner.value.avatar_url
     }))
-
-    // TODO: Cargar el servicio para la imagen de perfil y refactorizar esta parte en un composable
-
-    const profileImageChange = (e: Event) => {
-        const target = e.target as HTMLInputElement
-        const fileList = target.files as FileList
-        const uniqueFile = fileList[0]
-        const allowedExtensions = ['image/jpeg', 'image/png']
-
-        if (uniqueFile && allowedExtensions.includes(uniqueFile.type)) {
-            errorFieldSelected.value = ''
-            const reader = new FileReader()
-            uploadFileImage.value = uniqueFile
-            reader.onloadend = () => {
-                imagePreview.value = reader.result as string
-            }
-            reader.readAsDataURL(uniqueFile)
-        } else {
-            errorFieldSelected.value = 'Error file, please select other'
-        }
-    }
 
     const upAvatar = async () => {
         loadingUploadImage.value = true
