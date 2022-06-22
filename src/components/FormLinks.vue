@@ -1,14 +1,17 @@
 <script lang="ts" setup>
     import { social } from '../social'
-    import { createNewLink } from '../services/User'
-    import { reactive, ref } from 'vue'
+    import { updateLink, createNewLink } from '../services/Links'
+    import { reactive, ref, onMounted } from 'vue'
     import { useStore } from 'vuex'
     import useValidate from '@vuelidate/core'
     import { rulesValidateLinks } from '../helpers/validates'
+    import { Ilinks } from '../models/Auth/User'
+    import { getError } from '../helpers/errors'
 
     const store = useStore()
     const props = defineProps<{
-        closeModal: Function
+        toggleModal: Function,
+        link?:Ilinks
     }>()
 
     const error = ref('')
@@ -21,29 +24,57 @@
         titleLink: ''
     })
 
+    onMounted(() => {
+        if (props.link) {
+            socialIconValues.link = props.link.link
+            socialIconValues.titleLink = props.link.titleLink
+            socialIcon.value = props.link.socialIcon
+        }
+    })
+
     const v$ = useValidate(rulesValidateLinks, socialIconValues)
 
-    const save = async () => {
+    const handdleAction = async () => {
         v$.value.$validate()
         if (!v$.value.$error && socialIcon.value) {
-            const response = await createNewLink({
-                ...socialIconValues,
-                socialIcon: socialIcon.value
-            })
-
-            if (response.id) {
-                store.commit('user/setLinksUser', response)
-                props.closeModal()
+            if (!props.link) {
+                save()
             } else {
-                error.value = typeof response.message === 'string'
-                    ? response.message
-                    : response.message[0]
+                update()
             }
+         }
+    }
+
+    const update = async () => {
+        const response = await updateLink({
+            ...socialIconValues,
+            socialIcon: socialIcon.value
+        }, props.link?.id as string)
+
+        if (response.id) {
+            store.commit('user/updateLinks', response)
+            props.toggleModal()
+        } else {
+            error.value = getError(response.message)
+        }
+    }
+
+    const save = async () => {
+        const response = await createNewLink({
+            ...socialIconValues,
+            socialIcon: socialIcon.value
+        })
+
+        if (response.id) {
+            store.commit('user/setLinksUser', response)
+            props.toggleModal()
+        } else {
+            error.value = getError(response.message)
         }
     }
 </script>
 <template>
-    <form @submit.prevent="save" class="form-links">
+    <form @submit.prevent="handdleAction" class="form-links">
         <input
             v-model="socialIconValues.titleLink"
             class="form-links__input"
@@ -77,7 +108,7 @@
                 >
         </div>
 
-        <button class="form-links__btn-save">Save</button>
+        <button class="form-links__btn-save">{{props.link ?  "Update" : "Save"}}</button>
 
     </form>
 </template>

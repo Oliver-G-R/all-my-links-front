@@ -1,6 +1,6 @@
-import { linksApi } from '../axios/index'
-import { getAccessToken } from '../helpers/validToken'
-import { IAvatarResponse, ILinksResponse, IStateFieldsLinks, IStateFieldsUser, Iuser, IUserResponse } from '../models/Auth/User'
+import { linksApi } from '../../axios/index'
+import { getAccessToken } from '../../helpers/validToken'
+import { IAvatarResponse, IStateFieldsUser, Iuser, IUserResponse } from '../../models/Auth/User'
 
 const getUserByNickName = async (nickName:string): Promise <Iuser> => {
     try {
@@ -8,19 +8,6 @@ const getUserByNickName = async (nickName:string): Promise <Iuser> => {
         return reponse.data
     } catch (error) {
         return error.response.data.message
-    }
-}
-
-const createNewLink = async (link:IStateFieldsLinks): Promise<ILinksResponse> => {
-    try {
-        const response = await linksApi.post('/links', link, {
-            headers: {
-                Authorization: `Bearer ${getAccessToken()}`
-            }
-        })
-        return response.data
-    } catch (error) {
-        return error.response.data
     }
 }
 
@@ -53,7 +40,6 @@ const uploadAvatar = async (img:FormData):Promise<IAvatarResponse> => {
 
 export {
     getUserByNickName,
-    createNewLink,
     updateProfile,
     uploadAvatar
 }

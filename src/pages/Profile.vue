@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { computed, ref } from 'vue'
+    import { computed, ref, reactive } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
     import defaultProfileImage from '../assets/user.png'
@@ -8,18 +8,23 @@
     import CardLink from '../components/CardLink.vue'
     import Modal from '../components/Modal.vue'
     import FormLinks from '../components/FormLinks.vue'
+    import { Ilinks } from '../models/Auth/User'
 
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
-    const activeModalAddLinks = ref(false)
+    const activeModal = ref(false)
+    const actionTypeModal = ref<'update' | 'save'>('save')
+    const currentLinkToUpdate = reactive<Partial<Ilinks>>({})
+
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
 
     const { user: userPublic, loading } = useGetUserByUrl()
     const isOwner = computed(() => userIdWithSession.value === userPublic.value?.id)
     const user = computed(() => isOwner.value ? ownerUser.value : userPublic.value)
 
-    const activModal = () => {
-        activeModalAddLinks.value = !activeModalAddLinks.value
+    const toggleModal = (typeAction?: 'update' | 'save') => {
+        activeModal.value = !activeModal.value
+        if (typeAction) actionTypeModal.value = typeAction
         document.querySelector('body')?.classList.toggle('modal-open')
     }
 
@@ -48,7 +53,7 @@
                 <div class="section-profile__content-btns">
                     <button
                         v-if="isOwner"
-                        @click="activModal"
+                        @click="toggleModal('save')"
                         class="section-profile__btn-profile section-profile__btn-profile--add" >
                         +
                     </button>
@@ -66,18 +71,26 @@
 
         <section v-if="user?.links" class="container section-profile-links">
             <CardLink
-                v-for="item in user.links" :key="item.id"
-                :titleLink = "item.titleLink"
-                :link = "item.link"
-                :socialIcon="item.socialIcon"
+                v-for="item in user.links"
+                :key="item.id"
+                @setLinkToUpdate="currentLinkToUpdate = $event"
+                v-bind="item"
+                :toggleModal="toggleModal"
             />
         </section>
 
         <Modal
-            v-if="activeModalAddLinks"
-            :activModal="activModal"
-            title="Add new social link">
-            <FormLinks :closeModal="activModal" />
+            v-if="activeModal"
+            :toggleModal="toggleModal"
+            :title="actionTypeModal === 'save' ? 'Add new social link' : 'Update social link'">
+            <FormLinks
+                v-if="actionTypeModal === 'save'"
+                :toggleModal="toggleModal" />
+            <FormLinks
+                v-else
+                :toggleModal="toggleModal"
+                :link="(currentLinkToUpdate as Ilinks)"
+            />
         </Modal>
 
     </main>

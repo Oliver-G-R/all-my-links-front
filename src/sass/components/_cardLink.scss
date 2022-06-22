@@ -1,4 +1,5 @@
 .card-link{
+    position: relative;
     padding: 2rem;
     border: 1.5px solid rgb(236, 236, 236);
     border-radius: 1rem;
@@ -22,5 +23,27 @@
     img{
         margin-right: 2rem;
         width: 4rem;
+    }
+    &__list-actions{
+        display: none;
+        position: absolute; 
+        right: 5rem;
+        bottom: -4rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+        background-color: rgb(255, 255, 255);
+        &.activ{
+            display: block;
+        }
+        button{
+            text-align: left;
+            padding: 1rem;
+            width: 100%;
+            border: 0;
+            background-color: transparent;
+            font-size: 1.5rem;
+            cursor: pointer;
+
+        }
     }
 }
