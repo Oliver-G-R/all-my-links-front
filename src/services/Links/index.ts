@@ -1,6 +1,7 @@
 import { getAccessToken } from '../../helpers/validToken'
 import { ILinksResponse, IStateFieldsLinks } from '../../models/Auth/User'
 import { linksApi } from '../../axios/index'
+import { catchError } from '../../helpers/errors'
 
 const createNewLink = async (link:IStateFieldsLinks): Promise<ILinksResponse> => {
     try {
@@ -11,7 +12,7 @@ const createNewLink = async (link:IStateFieldsLinks): Promise<ILinksResponse> =>
         })
         return response.data
     } catch (error) {
-        return error.response.data
+        return catchError(error)
     }
 }
 
@@ -24,7 +25,7 @@ const updateLink = async (link: IStateFieldsLinks, id:string):Promise<ILinksResp
         })
         return response.data
     } catch (error) {
-        return error.response.data
+        return catchError(error)
     }
 }
 
@@ -38,7 +39,7 @@ const removeLink = async (id:string):Promise<{message: string}> => {
 
         return response.data
     } catch (error) {
-        return error.response.data
+        return catchError(error)
     }
 }
 export {

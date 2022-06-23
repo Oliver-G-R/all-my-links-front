@@ -5,7 +5,8 @@
     import { IinputData } from '../models/FormAuth/index'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
-    import { getError } from '../helpers/errors'
+    import { catchError, getError } from '../helpers/errors'
+    import { IResponseAuth } from '../models/Auth/Auth'
 
     interface Props{
         typeForm: 'sign-in' | 'sign-up'
@@ -60,7 +61,8 @@
                     })
                 }
             } catch (e) {
-                error.value = getError(e.response.data.message)
+                console.log(e)
+                error.value = getError(catchError<IResponseAuth>(e).message)
             }
         }
     }

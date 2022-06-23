@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-   import { useGetUsers } from '../composables/useGetUsers'
-   const { loading, users } = useGetUsers()
+    import { useGetUsers } from '../composables/useGetUsers'
+    const { loading, users, error } = useGetUsers()
 </script>
 <template>
-    <main class="container">
+    <p v-if="error" >{{error}}</p>
+    <main v-else class="container">
         <p v-if="loading" >loading...</p>
         <ul v-else style="
             display: flex;

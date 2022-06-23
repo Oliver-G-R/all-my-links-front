@@ -7,12 +7,13 @@
     import { updateProfile, uploadAvatar } from '../services/User'
     import { getError } from '../helpers/errors'
     import { useLoadImage } from '../composables/useLoadImage'
+import Alert from '../components/Alert.vue'
 
     const store = useStore<IState>()
 
     const errorUploadAvatar = ref('')
     const dataOwner = computed(() => store.state.user.profileOwnerUser)
-    const errorResponse = ref('')
+    const errorResponse = ref<string| null>(null)
     const showNickName = computed(() => dataOwner.value.nickName)
     const loadingUploadImage = ref(false)
 
@@ -56,11 +57,14 @@
     }
 </script>
 <template>
+    <Alert
+        :message="errorResponse"
+        @set-error="errorResponse = $event"
+    />
     <main class="container">
         <h1 class="profile-edit__title">
             Profile {{showNickName}}
         </h1>
-        {{errorResponse}}
         {{errorUploadAvatar}}
         <section class="profile-edit__section-data">
 

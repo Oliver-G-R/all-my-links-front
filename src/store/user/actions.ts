@@ -5,22 +5,19 @@ import { linksApi } from '../../axios/index'
 import { IglobalUsers, Iuser } from '../../models/Auth/User'
 import { TOKEN_USER } from '../../constants/auth'
 import router from '../../router/index.router'
+import { catchError } from '../../helpers/errors'
+import { IResponseError } from '../../models/Auth/Auth'
 const actions: ActionTree<UserState, IState> = {
     async getUsers ({ commit }, currentUserId: string) {
         const urlRequest = currentUserId
             ? `user/global-users?currentUserId=${currentUserId}`
             : 'user/global-users'
 
-        try {
-            const response = await linksApi.get<IglobalUsers>(urlRequest)
+        const response = await linksApi.get<IglobalUsers>(urlRequest)
 
-            commit('setGlobalUsers', {
-                users: response.data,
-                loading: false
-            })
-        } catch (error) {
-
-        }
+        commit('setGlobalUsers', {
+            users: response.data
+        })
     },
 
     async getOwnerProfileUser ({ commit }, token: string) {
@@ -32,15 +29,16 @@ const actions: ActionTree<UserState, IState> = {
             })
             commit('setOwnerProfileUser', response.data)
         } catch (error) {
-            if (error.response.data.error === 'Not Found' || error.response.data.statusCode === 401) {
+            if (catchError<IResponseError>(error)?.error === 'Not Found') {
                 window.localStorage.removeItem(TOKEN_USER)
-                store.state.auth.user = {
+                store.commit('auth/setDataUser', {
                     isActive: false,
                     token: null,
                     id: null
-                }
+                })
                 router.push('/signIn')
             }
+            commit('setErrorGetOwnerUser', 'error owneruser')
         }
     }
 

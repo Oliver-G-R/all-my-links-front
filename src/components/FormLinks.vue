@@ -52,7 +52,7 @@
             socialIcon: socialIcon.value
         }, props.link?.id as string)
 
-        if (response.id) {
+        if (response?.id) {
             store.commit('user/updateLinks', response)
             props.toggleModal()
         } else {
@@ -66,7 +66,7 @@
             socialIcon: socialIcon.value
         })
 
-        if (response.id) {
+        if (response?.id) {
             store.commit('user/setLinksUser', response)
             props.toggleModal()
         } else {

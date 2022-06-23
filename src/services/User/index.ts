@@ -1,13 +1,14 @@
 import { linksApi } from '../../axios/index'
+import { catchError } from '../../helpers/errors'
 import { getAccessToken } from '../../helpers/validToken'
-import { IAvatarResponse, IStateFieldsUser, Iuser, IUserResponse } from '../../models/Auth/User'
+import { IAvatarResponse, IStateFieldsUser, IUserResponse } from '../../models/Auth/User'
 
-const getUserByNickName = async (nickName:string): Promise <Iuser> => {
+const getUserByNickName = async (nickName:string): Promise <IUserResponse> => {
     try {
-        const reponse = await linksApi.get<Iuser>(`/user/get-by-nickName/${nickName}`)
+        const reponse = await linksApi.get(`/user/get-by-nickName/${nickName}`)
         return reponse.data
     } catch (error) {
-        return error.response.data.message
+        return catchError(error)
     }
 }
 
@@ -20,7 +21,7 @@ const updateProfile = async (user:IStateFieldsUser):Promise<IUserResponse> => {
         })
         return response.data
     } catch (error) {
-        return error.response.data
+        return catchError(error)
     }
 }
 
@@ -34,7 +35,7 @@ const uploadAvatar = async (img:FormData):Promise<IAvatarResponse> => {
         })
         return response.data
     } catch (error) {
-        return error.response.data
+        return catchError(error)
     }
 }
 

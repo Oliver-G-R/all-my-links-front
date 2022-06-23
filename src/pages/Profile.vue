@@ -22,7 +22,7 @@
 
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
 
-    const { user: userPublic, loading } = useGetUserByUrl()
+    const { user: userPublic, loading, error: errorResponse } = useGetUserByUrl()
     const isOwner = computed(() => userIdWithSession.value === userPublic.value?.id)
     const user = computed(() => isOwner.value ? ownerUser.value : userPublic.value)
 
@@ -35,16 +35,16 @@
 </script>
 
 <template>
-    <Alert
-        @setError="error = $event"
-        :message="error"
-    />
-    <main>
+    <p v-if="errorResponse">{{errorResponse}}</p>
+    <main v-else>
+        <Alert
+            @setError="error = $event"
+            :message="error"
+        />
         <p v-if="loading" > loading </p>
-        <p v-else-if="!loading && !user" >
+        <p v-if="!user && !errorResponse && !loading" >
             No user found
         </p>
-
         <section
             class="section-profile"
             v-if="user && !loading">

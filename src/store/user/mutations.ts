@@ -8,7 +8,6 @@ const mutation: MutationTree<UserState> = {
     },
 
     setGlobalUsers (state, users) {
-        state.globalUsers.loading = users.loading
         state.globalUsers.users = users.users
     },
 
@@ -30,6 +29,10 @@ const mutation: MutationTree<UserState> = {
     removeLink (state, id:string) {
         state.profileOwnerUser.links = state.profileOwnerUser.links
             .filter(item => item.id !== id)
+    },
+
+    setErrorGetOwnerUser (state, error) {
+        state.errorGetOwnerUser = error
     }
 }
 
