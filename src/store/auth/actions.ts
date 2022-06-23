@@ -9,42 +9,34 @@ import router from '../../router/index.router'
 
 const actions: ActionTree<AuthState, IState> = {
     async signIn ({ commit }, payload:ISignIn) {
-        try {
-            const response = await linksApi.post<IResponseAuth>('/auth/signIn', {
-                nickNameOrEmail: payload.nickNameOrEmail,
-                password: payload.password
-            })
+        const response = await linksApi.post<IResponseAuth>('/auth/signIn', {
+            nickNameOrEmail: payload.nickNameOrEmail,
+            password: payload.password
+        })
 
-            window.localStorage.setItem(TOKEN_USER, response.data.token)
-            commit('setDataUser', {
-                token: response.data.token,
-                isActive: true,
-                id: response.data.user.id
-            })
-            router.push(`/${response.data.user.nickName}`)
-        } catch (error) {
-            commit('setError', error.response.data.message)
-        }
+        window.localStorage.setItem(TOKEN_USER, response.data.token)
+        commit('setDataUser', {
+            token: response.data.token,
+            isActive: true,
+            id: response.data.user.id
+        })
+        router.push(`/${response.data.user.nickName}`)
     },
 
     async signUp ({ commit }, payload:ISignUp) {
-        try {
-            const response = await linksApi.post<IResponseAuth>('/auth/signUp', {
-                email: payload.email,
-                password: payload.password,
-                nickName: payload.nickName
-            })
+        const response = await linksApi.post<IResponseAuth>('/auth/signUp', {
+            email: payload.email,
+            password: payload.password,
+            nickName: payload.nickName
+        })
 
-            window.localStorage.setItem(TOKEN_USER, response.data.token)
-            commit('setDataUser', {
-                token: response.data.token,
-                isActive: true,
-                id: response.data.user.id
-            })
-            router.push(`/${response.data.user.nickName}`)
-        } catch (error) {
-            commit('setError', error.response.data.message)
-        }
+        window.localStorage.setItem(TOKEN_USER, response.data.token)
+        commit('setDataUser', {
+            token: response.data.token,
+            isActive: true,
+            id: response.data.user.id
+        })
+        router.push(`/${response.data.user.nickName}`)
     },
 
     logout ({ commit }) {

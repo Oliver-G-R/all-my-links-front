@@ -4,7 +4,6 @@ export interface AuthState {
         isActive: boolean
         id?: string | null
     }
-    error: string | null
 }
 
 const state = (): AuthState => {
@@ -13,8 +12,7 @@ const state = (): AuthState => {
             token: null,
             isActive: false,
             id: null
-        },
-        error: null
+        }
     }
 }
 

@@ -1,28 +1,28 @@
 <script lang="ts" setup>
-    import { IState } from '../store/index'
-    import { useStore } from 'vuex'
-
-    const store = useStore<IState>()
+    import { getError } from '../helpers/errors'
 
     interface Props{
-        message: string | string[]
+        message: string | string[] | null
     }
+
+    const emits = defineEmits<{(e: 'setError', err: string | null): void}>()
 
     const props = defineProps<Props>()
 </script>
 
 <template>
-    <div class="alert">
+    <div :class="['alert', {
+        'activ': props.message || ''
+    }]">
         <p class="alert__title">
             {{
-                typeof props.message === 'string'
-                    ? props.message
-                    : props.message[0]
-            }}ss
+                props.message && getError(props.message)
+            }}
         </p>
         <button
             class="alert__close-btn"
-            @click="() => store.commit('auth/setError', '')">
+            @click="() => emits('setError', null)"
+            >
             x
         </button>
     </div>

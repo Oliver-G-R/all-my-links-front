@@ -1,10 +1,11 @@
 <script  lang="ts" setup>
-    import { onMounted, reactive, toRefs } from 'vue'
+    import { reactive, toRefs, ref, onUnmounted } from 'vue'
     import { useValidateAuthForm } from '../composables/useValidateAuthForm'
     import Alert from './Alert.vue'
     import { IinputData } from '../models/FormAuth/index'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
+    import { getError } from '../helpers/errors'
 
     interface Props{
         typeForm: 'sign-in' | 'sign-up'
@@ -12,8 +13,8 @@
 
     const store = useStore<IState>()
     const props = defineProps<Props>()
+    const error = ref<string | null>(null)
 
-    const { error } = toRefs(store.state.auth)
     const { typeForm } = toRefs(props)
 
     const inputData = reactive<IinputData>({
@@ -45,22 +46,26 @@
         const validErrors = validFields()
 
         if (validErrors) {
-            if (typeForm.value === 'sign-up') {
-                store.dispatch('auth/signUp', {
-                    nickName: inputData.nickName,
-                    password: inputData.password,
-                    email: inputData.email
-                })
-            } else if (typeForm.value === 'sign-in') {
-                store.dispatch('auth/signIn', {
-                    nickNameOrEmail: state.nickNameOrEmail,
-                    password: state.password
-                })
+            try {
+                if (typeForm.value === 'sign-up') {
+                    await store.dispatch('auth/signUp', {
+                        nickName: inputData.nickName,
+                        password: inputData.password,
+                        email: inputData.email
+                    })
+                } else if (typeForm.value === 'sign-in') {
+                    await store.dispatch('auth/signIn', {
+                        nickNameOrEmail: state.nickNameOrEmail,
+                        password: state.password
+                    })
+                }
+            } catch (e) {
+                error.value = getError(e.response.data.message)
             }
         }
     }
 
-    onMounted(() => {
+    onUnmounted(() => {
         if (error.value) {
             error.value = ''
         }
@@ -69,10 +74,10 @@
 </script>
 
 <template>
+    <Alert
+        @setError="error = $event"
+        :message="error"/>
     <form class="form-auth" @submit.prevent="handleSubmit">
-        <Alert
-            v-if="error"
-            :message="error"/>
         <input
             v-if="typeForm === 'sign-in'"
             class="form-auth__input"

@@ -8,9 +8,6 @@ const mutation: MutationTree<AuthState> = {
             isActive: user.isActive,
             id: user.id
         }
-    },
-    setError (state, error:string) {
-        state.error = error
     }
 }
 
