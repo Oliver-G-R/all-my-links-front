@@ -6,7 +6,6 @@
     import { store } from '../store/index'
 
     const listActions = ref<HTMLElement>()
-    const onlyLink = ref<HTMLAnchorElement>()
     const emits = defineEmits<{
         (e: 'setLinkToUpdate', link:Ilinks): void,
         (e: 'setError', err:string | null): void
@@ -57,7 +56,6 @@
             <div class="card-link__content-link">
                 <h2>{{props.titleLink}}</h2>
                 <a
-                    ref="onlyLink"
                     :href="props.link"
                     target="_blank">{{props.link}}</a>
             </div>
