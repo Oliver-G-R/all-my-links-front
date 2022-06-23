@@ -2,16 +2,23 @@
     import { social } from '../social'
     import { computed, ref } from 'vue'
     import { Ilinks } from '../models/Auth/User'
+    import { removeLink } from '../services/Links'
+    import { store } from '../store/index'
 
     const listActions = ref<HTMLElement>()
+    const onlyLink = ref<HTMLAnchorElement>()
+    const emits = defineEmits<{
+        (e: 'setLinkToUpdate', link:Ilinks): void,
+        (e: 'setError', err:string | null): void
+    }>()
 
-    const emits = defineEmits<{(e: 'setLinkToUpdate', link:Ilinks): void}>()
     const props = defineProps<{
         titleLink: string
         link : string
         socialIcon: string
         id: string,
-        toggleModal:(typeModalAction: 'save' | 'update') => void
+        isOwner: boolean
+        toggleModal:(typeModalAction?: 'save' | 'update') => void
     }>()
 
     const getSocialIcon = computed(() => social.find(icon => icon.name === props.socialIcon))
@@ -26,6 +33,21 @@
             socialIcon: props.socialIcon
         })
     }
+
+    const removeLinkHandler = async () => {
+        const response = await removeLink(props.id)
+        if (!response.message) {
+            store.commit('user/removeLink', props.id)
+            listActions.value?.classList.toggle('activ')
+        } else {
+            emits('setError', response.message)
+        }
+    }
+
+    const copyLink = (url:string) => {
+        navigator.clipboard.writeText(url)
+        listActions.value?.classList.toggle('activ')
+    }
 </script>
 <template>
     <article class="card-link">
@@ -34,20 +56,23 @@
                 :alt="getSocialIcon?.name">
             <div class="card-link__content-link">
                 <h2>{{props.titleLink}}</h2>
-                <a :href="props.link" target="_blank">{{props.link}}</a>
+                <a
+                    ref="onlyLink"
+                    :href="props.link"
+                    target="_blank">{{props.link}}</a>
             </div>
             <button @click="listActions?.classList.toggle('activ')" >...</button>
             <ul
                 ref="listActions"
                 class="card-link__list-actions">
-                <li>
-                    <button>Remove</button>
+                <li v-if="isOwner">
+                    <button @click="removeLinkHandler" >Remove</button>
                 </li>
-                <li>
+                <li v-if="isOwner">
                     <button @click="updateLink">Update</button>
                 </li>
                 <li>
-                    <button>Copy Link</button>
+                    <button @click="copyLink(props.link)">Copy Link</button>
                 </li>
             </ul>
     </article>

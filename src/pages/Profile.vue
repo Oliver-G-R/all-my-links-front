@@ -2,19 +2,23 @@
     import { computed, ref, reactive } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
+
     import defaultProfileImage from '../assets/user.png'
 
     import { useGetUserByUrl } from '../composables/useGetUserByUrl'
+
     import CardLink from '../components/CardLink.vue'
     import Modal from '../components/Modal.vue'
     import FormLinks from '../components/FormLinks.vue'
     import { Ilinks } from '../models/Auth/User'
+    import Alert from '../components/Alert.vue'
 
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
     const activeModal = ref(false)
     const actionTypeModal = ref<'update' | 'save'>('save')
     const currentLinkToUpdate = reactive<Partial<Ilinks>>({})
+    const error = ref<string | null>(null)
 
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
 
@@ -31,6 +35,10 @@
 </script>
 
 <template>
+    <Alert
+        @setError="error = $event"
+        :message="error"
+    />
     <main>
         <p v-if="loading" > loading </p>
         <p v-else-if="!loading && !user" >
@@ -73,9 +81,11 @@
             <CardLink
                 v-for="item in user.links"
                 :key="item.id"
-                @setLinkToUpdate="currentLinkToUpdate = $event"
-                v-bind="item"
                 :toggleModal="toggleModal"
+                :isOwner="isOwner"
+                v-bind="item"
+                @setLinkToUpdate="currentLinkToUpdate = $event"
+                @setError="error = $event"
             />
         </section>
 

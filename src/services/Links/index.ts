@@ -27,7 +27,22 @@ const updateLink = async (link: IStateFieldsLinks, id:string):Promise<ILinksResp
         return error.response.data
     }
 }
+
+const removeLink = async (id:string):Promise<{message: string}> => {
+    try {
+        const response = await linksApi.delete(`/links/${id}`, {
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            }
+        })
+
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
 export {
     createNewLink,
-    updateLink
+    updateLink,
+    removeLink
 }

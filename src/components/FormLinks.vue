@@ -7,6 +7,7 @@
     import { rulesValidateLinks } from '../helpers/validates'
     import { Ilinks } from '../models/Auth/User'
     import { getError } from '../helpers/errors'
+    import Alert from './Alert.vue'
 
     const store = useStore()
     const props = defineProps<{
@@ -14,7 +15,7 @@
         link?:Ilinks
     }>()
 
-    const error = ref('')
+    const error = ref<string | null>(null)
     const socialIcon = ref()
     const socialIconValues = reactive<{
         link: string
@@ -74,6 +75,10 @@
     }
 </script>
 <template>
+    <Alert
+        :message="error"
+        @set-error="error = $event"
+    />
     <form @submit.prevent="handdleAction" class="form-links">
         <input
             v-model="socialIconValues.titleLink"

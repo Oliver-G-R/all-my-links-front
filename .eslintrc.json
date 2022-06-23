@@ -21,6 +21,7 @@
         "vue/no-multiple-template-root": "off",
         "indent": "off",
         "no-mixed-operators": 0,
-        "camelcase": 0
+        "camelcase": 0, 
+        "func-call-spacing": 0
     }
 }

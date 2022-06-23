@@ -25,6 +25,11 @@ const mutation: MutationTree<UserState> = {
             state.profileOwnerUser.links.map(item =>
                 item.id === link.id ? link : item
             )
+    },
+
+    removeLink (state, id:string) {
+        state.profileOwnerUser.links = state.profileOwnerUser.links
+            .filter(item => item.id !== id)
     }
 }
 
