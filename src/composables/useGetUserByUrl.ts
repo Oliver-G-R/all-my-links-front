@@ -15,6 +15,7 @@ export const useGetUserByUrl = () => {
         loading.value = false
         if (userResponse.nickName && nickName) {
             user.value = userResponse
+            error.value = null
         } else error.value = getError(userResponse.message)
     }
 
@@ -23,7 +24,7 @@ export const useGetUserByUrl = () => {
     })
 
     onMounted(() => {
-        route.params.nickName && fetchUser(route.params.nickName as string)
+        route.params.nickName && fetchUser(route.params.nickName.toString())
     })
 
     return {
