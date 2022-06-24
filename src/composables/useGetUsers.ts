@@ -13,7 +13,6 @@ export const useGetUsers = () => {
 
     onMounted(async () => {
         try {
-            console.log(id?.value)
             await store.dispatch('user/getUsers', id?.value)
         } catch (e) {
             error.value = getError(catchError<IResponseError>(e).message)

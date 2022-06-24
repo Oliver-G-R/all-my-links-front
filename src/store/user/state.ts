@@ -6,8 +6,6 @@ export interface UserState {
     },
 
     profileOwnerUser: Iuser,
-
-    errorGetOwnerUser: string | null
 }
 
 const state = (): UserState => {
@@ -24,8 +22,7 @@ const state = (): UserState => {
             createdAt: new Date(),
             avatar_public_id: null,
             avatar_url: null
-        },
-        errorGetOwnerUser: null
+        }
     }
 }
 

@@ -8,13 +8,8 @@ import router from '../../router/index.router'
 import { catchError } from '../../helpers/errors'
 import { IResponseError } from '../../models/Auth/Auth'
 const actions: ActionTree<UserState, IState> = {
-    async getUsers ({ commit }, currentUserId: string) {
-        const urlRequest = currentUserId
-            ? `user/global-users?currentUserId=${currentUserId}`
-            : 'user/global-users'
-
-        const response = await linksApi.get<IglobalUsers>(urlRequest)
-
+    async getUsers ({ commit }) {
+        const response = await linksApi.get<IglobalUsers>('user/global-users')
         commit('setGlobalUsers', {
             users: response.data
         })
@@ -38,7 +33,6 @@ const actions: ActionTree<UserState, IState> = {
                 })
                 router.push('/signIn')
             }
-            commit('setErrorGetOwnerUser', 'error owneruser')
         }
     }
 

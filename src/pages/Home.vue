@@ -19,11 +19,6 @@
                 }"  >{{user.nickName}}
                 </router-link>
 
-                <div v-for="link in user.links" :key="link.id" >
-                    {{
-                        link.link
-                    }}
-                </div>
             </li>
         </ul>
     </main>

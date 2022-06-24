@@ -1,4 +1,4 @@
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { Iuser } from '../models/Auth/User'
 import { getUserByNickName } from '../services/User'
 import { useRoute } from 'vue-router'
@@ -9,24 +9,21 @@ export const useGetUserByUrl = () => {
     const loading = ref(true)
     const error = ref<string|null>(null)
     const route = useRoute()
-    const routeNickName = ref(route.params.nickName.toString())
 
-    const fetchUser = async () => {
-        const userResponse = await getUserByNickName(routeNickName.value)
+    const fetchUser = async (nickName:string) => {
+        const userResponse = await getUserByNickName(nickName)
         loading.value = false
-        console.log(userResponse.message)
-        if (userResponse.nickName) {
+        if (userResponse.nickName && nickName) {
             user.value = userResponse
         } else error.value = getError(userResponse.message)
     }
 
-    onMounted(() => {
-        fetchUser()
+    watch(() => route.params.nickName, (nickName) => {
+        nickName && fetchUser(nickName.toString())
     })
 
-    watch(() => route.params, (val) => {
-        routeNickName.value = val.nickName as string
-        fetchUser()
+    onMounted(() => {
+        route.params.nickName && fetchUser(route.params.nickName as string)
     })
 
     return {

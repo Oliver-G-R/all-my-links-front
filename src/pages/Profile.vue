@@ -102,6 +102,5 @@
                 :link="(currentLinkToUpdate as Ilinks)"
             />
         </Modal>
-
     </main>
 </template>

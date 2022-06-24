@@ -32,7 +32,7 @@ interface IStateFieldsUser {
 interface IglobalUsers {
     id: string
     nickName: string
-    links: Ilinks[]
+    avatar_url?: string | null
 }
 
 export type {

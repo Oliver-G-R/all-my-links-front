@@ -29,10 +29,6 @@ const mutation: MutationTree<UserState> = {
     removeLink (state, id:string) {
         state.profileOwnerUser.links = state.profileOwnerUser.links
             .filter(item => item.id !== id)
-    },
-
-    setErrorGetOwnerUser (state, error) {
-        state.errorGetOwnerUser = error
     }
 }
 
