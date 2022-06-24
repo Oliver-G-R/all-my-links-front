@@ -27,7 +27,9 @@ import Alert from '../components/Alert.vue'
     const fieldsProfile = computed<IStateFieldsUser>(() => ({
         nickName: dataOwner.value.nickName,
         email: dataOwner.value.email,
-        avatar_url: dataOwner.value.avatar_url
+        avatar_url: dataOwner.value.avatar_url,
+        bio: dataOwner.value.bio,
+        fullName: dataOwner.value.fullName
     }))
 
     const upAvatar = async () => {
@@ -88,6 +90,11 @@ import Alert from '../components/Alert.vue'
             <span v-if="errorFieldSelected" >{{errorFieldSelected}}</span>
             <form @submit.prevent="updateProfileHandler">
                 <input
+                    placeholder="Full Name"
+                    v-model="fieldsProfile.fullName"
+                    type="text">
+
+                <input
                     placeholder="Nick Name"
                     v-model="fieldsProfile.nickName"
                     type="text">
@@ -95,6 +102,15 @@ import Alert from '../components/Alert.vue'
                     placeholder="Email"
                     v-model="fieldsProfile.email"
                     type="email">
+
+                <textarea
+                    placeholder="Bio"
+                    v-model="fieldsProfile.bio"
+                    type="text">
+                >
+
+                </textarea>
+
                 <button>Save</button>
             </form>
         </section>

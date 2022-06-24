@@ -23,14 +23,15 @@
         password: '',
         nickName: '',
         nickNameOrEmail: '',
-        repeatPassword: ''
+        repeatPassword: '',
+        fullName: ''
     })
 
     const { v$, state } = useValidateAuthForm(inputData)
 
     const validFields = ():boolean => {
         if (typeForm.value === 'sign-up') {
-            if (v$.value.nickName.$error || v$.value.password.$error || v$.value.email.$error || v$.value.repeatPassword.$error) {
+            if (v$.value.fullName.$error || v$.value.nickName.$error || v$.value.password.$error || v$.value.email.$error || v$.value.repeatPassword.$error) {
                 return false
             }
             return true
@@ -52,7 +53,8 @@
                     await store.dispatch('auth/signUp', {
                         nickName: inputData.nickName,
                         password: inputData.password,
-                        email: inputData.email
+                        email: inputData.email,
+                        fullName: inputData.fullName
                     })
                 } else if (typeForm.value === 'sign-in') {
                     await store.dispatch('auth/signIn', {
@@ -106,6 +108,20 @@
             class="alert-filed"
             v-if="v$.nickName.$error && typeForm === 'sign-up'">
             {{v$.nickName.$errors[0].$message}}
+        </span>
+
+        <input
+            v-if="typeForm === 'sign-up'"
+            class="form-auth__input"
+            :class="{'error': v$.fullName.$error}"
+            v-model="state.fullName"
+            placeholder="Full Name"
+            type="text">
+
+        <span
+            class="alert-filed"
+            v-if="v$.fullName.$error && typeForm === 'sign-up'">
+            {{v$.fullName.$errors[0].$message}}
         </span>
 
         <input

@@ -6,6 +6,7 @@ interface ISignIn {
 }
 
 interface ISignUp {
+    fullName: string
     nickName: string
     email: string
     password: string

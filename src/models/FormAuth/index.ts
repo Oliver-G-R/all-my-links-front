@@ -4,4 +4,5 @@ export interface IinputData{
     nickName: string;
     repeatPassword: string;
     nickNameOrEmail: string;
+    fullName: string
 }

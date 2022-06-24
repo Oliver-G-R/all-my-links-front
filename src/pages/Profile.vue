@@ -55,7 +55,8 @@
                             :src="user.avatar_url || defaultProfileImage"
                             alt="avatar">
                     </div>
-                    <h1>{{user.nickName}}</h1>
+                    <h1>{{user.fullName}}</h1>
+                    <span>{{user.nickName}}</span>
                 </div>
 
                 <div class="section-profile__content-btns">

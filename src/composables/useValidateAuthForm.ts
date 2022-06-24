@@ -6,6 +6,9 @@ export const useValidateAuthForm = (state: IinputData) => {
     const nickNameRegex = helpers.regex(/^[a-z0-9_.]+$/)
 
     const rules = computed(() => ({
+        fullName: {
+            required: helpers.withMessage('This name is required', required)
+        },
         nickName: {
             required: helpers.withMessage('This nickName is required', required),
             nickNameRegex: helpers.withMessage('The nick name must have only lowercase letters and numbers ', nickNameRegex)

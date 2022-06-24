@@ -27,6 +27,7 @@ const actions: ActionTree<AuthState, IState> = {
         const response = await linksApi.post<IResponseAuth>('/auth/signUp', {
             email: payload.email,
             password: payload.password,
+            fullName: payload.fullName,
             nickName: payload.nickName
         })
 

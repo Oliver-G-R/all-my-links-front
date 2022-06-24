@@ -18,8 +18,11 @@ interface Iuser{
     email: string
     id: string
     links: Ilinks[]
+    principalAccount: Ilinks | null
     nickName: string
     updatedAt: Date
+    fullName:string
+    bio: string
     avatar_public_id: string | null
     avatar_url: string | null
 }
@@ -27,6 +30,8 @@ interface IUserResponse extends Iuser, IResponseError{}
 interface IStateFieldsUser {
     nickName: string
     email: string
+    fullName: string
+    bio: string
     avatar_url: string | null
 }
 interface IglobalUsers {

@@ -21,7 +21,10 @@ const state = (): UserState => {
             updatedAt: new Date(),
             createdAt: new Date(),
             avatar_public_id: null,
-            avatar_url: null
+            avatar_url: null,
+            principalAccount: null,
+            bio: '',
+            fullName: ''
         }
     }
 }
