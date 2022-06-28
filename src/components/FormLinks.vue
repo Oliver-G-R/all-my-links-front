@@ -1,19 +1,21 @@
 <script lang="ts" setup>
     import { social } from '../social'
     import { updateLink, createNewLink } from '../services/Links'
-    import { reactive, ref, onMounted } from 'vue'
+    import { reactive, ref, onMounted, computed } from 'vue'
     import { useStore } from 'vuex'
     import useValidate from '@vuelidate/core'
     import { rulesValidateLinks } from '../helpers/validates'
     import { Ilinks } from '../models/Auth/User'
     import { getError } from '../helpers/errors'
     import Alert from './Alert.vue'
+    import { IState } from '../store/index'
 
-    const store = useStore()
+    const store = useStore<IState>()
     const props = defineProps<{
         toggleModal: Function,
         link?:Ilinks
     }>()
+    const currentPrincippalAccount = computed(() => store.state.user.profileOwnerUser.principalAccount)
 
     const error = ref<string | null>(null)
     const socialIcon = ref()
@@ -52,8 +54,11 @@
             socialIcon: socialIcon.value
         }, props.link?.id as string)
 
-        if (response?.id) {
+        if (!response.message) {
             store.commit('user/updateLinks', response)
+            currentPrincippalAccount.value?.id === response.id &&
+                store.commit('user/setPrincipalAccount', response)
+
             props.toggleModal()
         } else {
             error.value = getError(response.message)

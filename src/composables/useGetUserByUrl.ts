@@ -13,7 +13,6 @@ export const useGetUserByUrl = () => {
     const fetchUser = async (nickName:string) => {
         const userResponse = await getUserByNickName(nickName)
         loading.value = false
-        console.log(userResponse)
         if (userResponse.nickName && nickName) {
             user.value = userResponse
             error.value = null

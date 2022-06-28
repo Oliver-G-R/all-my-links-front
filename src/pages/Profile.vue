@@ -12,6 +12,8 @@
     import FormLinks from '../components/FormLinks.vue'
     import { Ilinks } from '../models/Auth/User'
     import Alert from '../components/Alert.vue'
+    import HandlerCardLink from '../components/HandlerCardLink.vue'
+    import Loader from '../components/Loader.vue'
 
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
@@ -19,6 +21,7 @@
     const actionTypeModal = ref<'update' | 'save'>('save')
     const currentLinkToUpdate = reactive<Partial<Ilinks>>({})
     const error = ref<string | null>(null)
+    const loadingAction = ref(false)
 
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
 
@@ -37,6 +40,7 @@
 <template>
     <p v-if="errorResponse">{{errorResponse}}</p>
     <main v-else>
+        <Loader v-if="loadingAction" />
         <Alert
             @setError="error = $event"
             :message="error"
@@ -79,15 +83,30 @@
         </section>
 
         <section v-if="user?.links" class="container section-profile-links">
-            <CardLink
-                v-for="item in user.links"
-                :key="item.id"
-                :toggleModal="toggleModal"
-                :isOwner="isOwner"
-                v-bind="item"
-                @setLinkToUpdate="currentLinkToUpdate = $event"
-                @setError="error = $event"
-            />
+            <h2 v-if="user.principalAccount">
+                Principal Account
+            </h2>
+            <div class="section-profile-links__content">
+                <CardLink
+                    v-for="item in user.links"
+                    v-bind="item"
+                    :key="item.id"
+                    :currentPrincippalAccount="user.principalAccount"
+                >
+                    <HandlerCardLink
+                        :titleLink="item.titleLink"
+                        :link="item.link"
+                        :socialIcon="item.socialIcon"
+                        :id="item.id"
+                        :isOwner="isOwner"
+                        :currentPrincippalAccount="user.principalAccount"
+                        :toggleModal="toggleModal"
+                        @setLinkToUpdate="currentLinkToUpdate = $event"
+                        @setError="error = $event"
+                        @setLoading="loadingAction = $event"
+                    />
+                </CardLink>
+            </div>
         </section>
 
         <Modal

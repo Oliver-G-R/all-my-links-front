@@ -38,6 +38,7 @@ interface IglobalUsers {
     id: string
     nickName: string
     avatar_url?: string | null
+    principalAccount: Ilinks | null
 }
 
 export type {

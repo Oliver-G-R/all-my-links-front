@@ -29,6 +29,10 @@ const mutation: MutationTree<UserState> = {
     removeLink (state, id:string) {
         state.profileOwnerUser.links = state.profileOwnerUser.links
             .filter(item => item.id !== id)
+    },
+
+    setPrincipalAccount (state, link: Ilinks | null) {
+        state.profileOwnerUser.principalAccount = link
     }
 }
 

@@ -2,6 +2,7 @@ import { getAccessToken } from '../../helpers/validToken'
 import { ILinksResponse, IStateFieldsLinks } from '../../models/Auth/User'
 import { linksApi } from '../../axios/index'
 import { catchError } from '../../helpers/errors'
+import { IResponseError } from '../../models/Auth/Auth'
 
 const createNewLink = async (link:IStateFieldsLinks): Promise<ILinksResponse> => {
     try {
@@ -42,8 +43,40 @@ const removeLink = async (id:string):Promise<{message: string}> => {
         return catchError(error)
     }
 }
+
+const createPrincipalAccount = async (idLink:string):Promise<ILinksResponse> => {
+    try {
+        const response = await linksApi.post(`/user/set-principal-account/${idLink}`, undefined, {
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            }
+        })
+
+        return response.data
+    } catch (error) {
+        console.log(error)
+        return catchError(error)
+    }
+}
+
+const deletePrincipalAccount = async (idLink:string):Promise<IResponseError> => {
+    try {
+        const response = await linksApi.delete(`/user/remove-principal-account/${idLink}`, {
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            }
+        })
+
+        return response.data
+    } catch (error) {
+        console.log(error)
+        return catchError(error)
+    }
+}
 export {
     createNewLink,
     updateLink,
-    removeLink
+    removeLink,
+    createPrincipalAccount,
+    deletePrincipalAccount
 }
