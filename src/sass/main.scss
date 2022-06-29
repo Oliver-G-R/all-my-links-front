@@ -4,10 +4,12 @@
         "./components/cardLink",
         "./components/modal",
         "./components/form-links",
-        "./components/loader";
+        "./components/loader",
+        './components/cardUser';
 
 @import "./pages/auth-pages",
         "./pages/profile",
-        "./pages/profile-edit";
+        "./pages/profile-edit",
+        './pages/home';
         
 @import "./base/resets";

@@ -8,7 +8,7 @@
         link : string
         socialIcon: string
         id: string,
-        currentPrincippalAccount: Ilinks | null
+        currentPrincippalAccount?: Ilinks | null
     }>()
 
     const getSocialIcon = computed(() => social.find(icon => icon.name === props.socialIcon))

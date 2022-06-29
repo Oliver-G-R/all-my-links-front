@@ -1,0 +1,36 @@
+.card-user{
+    display: flex;
+    flex-direction: column;
+    &__header{
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    &__avatar{
+        width: 8rem;
+        height: 8rem;
+        overflow: hidden;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2rem;
+        background-color: rgb(225, 225, 225);
+        img{
+            width: 90%;   
+            height: 90%;   
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+
+    &__name{
+        font-size: 2rem;
+    }
+
+    &__names{
+        line-height: 2.8rem;
+    }
+    
+}

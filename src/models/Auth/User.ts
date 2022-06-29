@@ -37,8 +37,9 @@ interface IStateFieldsUser {
 interface IglobalUsers {
     id: string
     nickName: string
-    avatar_url?: string | null
+    avatar_url: string | undefined
     principalAccount: Ilinks | null
+    fullName:string
 }
 
 export type {
