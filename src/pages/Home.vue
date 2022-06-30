@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     import { useGetUsers } from '../composables/useGetUsers'
-import CardUser from '../components/CardUser.vue'
+    import CardUser from '../components/CardUser.vue'
     const { loading, users, error } = useGetUsers()
 </script>
 <template>

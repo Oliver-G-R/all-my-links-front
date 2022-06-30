@@ -3,22 +3,125 @@ input[type="file"]{
 }
 
 .profile-edit{
-   &__content-avatar{
-     position: relative;
-     cursor: pointer;
-     &::after{
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.185);
-     }
-     span{
-        position: absolute;
-        font-size: 2rem;
-        z-index: 1;
-        color: rgba(255, 255, 255, 0.872);
-        font-weight: 400;
-     }
+   margin-top: 5rem;
+   &__fullName{
+      font-size: 2.8rem;
    }
+
+   &__avatar-content{
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex-direction: row-reverse;
+   }
+
+   &__content-avatar{
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height:150px;
+      width:150px;
+      background-color: rgb(225, 225, 225);
+      border-radius: 50%;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+
+      .container-loader{
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0,0,0,0.5);
+         z-index: 1;
+         border-radius: 50%;
+
+         div{
+            //center
+            top: 50%;
+            left: 50%;
+            margin: -35px 0 0 -8px;
+         }
+      }
+      
+      &::after{
+         position: absolute;
+         top: 0;
+         right: 1rem;
+         z-index: 2;
+         content: 'Update';
+         background-color: rgb(0, 123, 255);
+         padding: .2rem 1rem;
+         border-radius: 1rem;
+         color: #ffffff;
+      }
+
+      img{
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         border-radius: 50%;
+
+      }
+   }
+}
+
+.section-profile-form{
+   &__form{
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 4rem;
+   }
+
+   &__names{
+      display: flex;
+   }
+
+   &__input{
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 1.6rem;
+      border: 2px solid rgb(236, 236, 236);
+      padding: 1rem;
+      transition: all 0.3s ease-in-out;
+      border-radius: 1rem;
+
+      &:focus{
+         border: 2px solid rgba(0, 123, 255, 0.253);
+         background-color: rgb(244, 244, 244);
+      }
+
+      &--full-name{
+         margin-right: 2rem;
+      }
+      &--textarea{
+         height: 10rem;
+         resize: none;
+      }
+   }
+
+   &__btn{
+      width: 20rem;
+      border: none;
+      outline: none;
+      font-size: 1.6rem;
+      border: 2px solid rgb(236, 236, 236);
+      padding: 1rem;
+      transition: all 0.3s ease-in-out;
+      background-color: rgb(0, 123, 255);
+      color: rgb(255, 255, 255);
+      border-radius: 1rem;
+      cursor: pointer;
+      &:hover{
+         opacity: .8;
+      }
+
+      &:disabled{
+         opacity: .5;
+      }
+   }
+
 }

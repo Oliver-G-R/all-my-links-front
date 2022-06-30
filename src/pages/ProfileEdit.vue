@@ -7,15 +7,17 @@
     import { updateProfile, uploadAvatar } from '../services/User'
     import { getError } from '../helpers/errors'
     import { useLoadImage } from '../composables/useLoadImage'
-import Alert from '../components/Alert.vue'
+    import Alert from '../components/Alert.vue'
+    import Loader from '../components/Loader.vue'
 
     const store = useStore<IState>()
 
-    const errorUploadAvatar = ref('')
+    const errorUploadAvatar = ref<string| null>('')
     const dataOwner = computed(() => store.state.user.profileOwnerUser)
     const errorResponse = ref<string| null>(null)
-    const showNickName = computed(() => dataOwner.value.nickName)
+    const showFullName = computed(() => dataOwner.value.fullName)
     const loadingUploadImage = ref(false)
+    const loadingProfileData = ref(false)
 
     const {
         errorFieldSelected,
@@ -48,8 +50,10 @@ import Alert from '../components/Alert.vue'
     }
 
     const updateProfileHandler = async () => {
+        loadingProfileData.value = true
         uploadFileImage.value && !errorFieldSelected.value && upAvatar()
         const response = await updateProfile(fieldsProfile.value)
+        loadingProfileData.value = false
 
         if (response.message) {
             errorResponse.value = getError(response.message)
@@ -63,14 +67,20 @@ import Alert from '../components/Alert.vue'
         :message="errorResponse"
         @set-error="errorResponse = $event"
     />
+    <Alert
+        :message="errorUploadAvatar"
+        @set-error="errorUploadAvatar = $event"
+    />
     <main class="container">
-        <h1 class="profile-edit__title">
-            Profile {{showNickName}}
-        </h1>
-        {{errorUploadAvatar}}
-        <section class="profile-edit__section-data">
+        <section class="profile-edit profile-edit__avatar-content">
+            <div>
+                 <h1 class="profile-edit__fullName">
+                     {{showFullName}}
+                 </h1>
+                 <p>Update your profile</p>
+            </div>
 
-            <label for="avatar-file-photo" class="profile-edit__content-avatar section-profile__container-avatar">
+            <label for="avatar-file-photo" class="profile-edit__content-avatar">
                 <img
                     v-if="!imagePreview"
                     :src="fieldsProfile.avatar_url || defaultProfileImage"
@@ -80,30 +90,43 @@ import Alert from '../components/Alert.vue'
                     :src="imagePreview && !errorFieldSelected
                         ? imagePreview
                         : fieldsProfile.avatar_url || defaultProfileImage ">
-                <span v-if="!loadingUploadImage" >Editar</span>
-                <span v-else>Cargando...</span>
+                <div v-if="loadingUploadImage" class="container-loader">
+                    <Loader
+                        size="small"
+                    />
+                </div>
                 <input
                     @change="profileImageChange"
                     type="file"
                     id="avatar-file-photo">
             </label>
+        </section>
+       <section class="section-profile-form">
             <span v-if="errorFieldSelected" >{{errorFieldSelected}}</span>
-            <form @submit.prevent="updateProfileHandler">
-                <input
-                    placeholder="Full Name"
-                    v-model="fieldsProfile.fullName"
-                    type="text">
+            <form
+                class="section-profile-form__form"
+                @submit.prevent="updateProfileHandler">
+               <div class="section-profile-form__names">
+                    <input
+                        class="section-profile-form__input section-profile-form__input--full-name"
+                        placeholder="Full Name"
+                        v-model="fieldsProfile.fullName"
+                        type="text">
 
+                    <input
+                        class="section-profile-form__input"
+                        placeholder="Nick Name"
+                        v-model="fieldsProfile.nickName"
+                        type="text">
+               </div>
                 <input
-                    placeholder="Nick Name"
-                    v-model="fieldsProfile.nickName"
-                    type="text">
-                <input
+                    class="section-profile-form__input"
                     placeholder="Email"
                     v-model="fieldsProfile.email"
                     type="email">
 
                 <textarea
+                    class="section-profile-form__input section-profile-form__input--textarea"
                     placeholder="Bio"
                     v-model="fieldsProfile.bio"
                     type="text">
@@ -111,8 +134,12 @@ import Alert from '../components/Alert.vue'
 
                 </textarea>
 
-                <button>Save</button>
+                <button
+                    :disabled="loadingUploadImage || loadingProfileData"
+                    class="section-profile-form__btn">
+                        Save
+                </button>
             </form>
-        </section>
+       </section>
     </main>
 </template>

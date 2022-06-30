@@ -40,7 +40,10 @@
 <template>
     <p v-if="errorResponse">{{errorResponse}}</p>
     <main v-else>
-        <Loader v-if="loadingAction" />
+        <Loader
+            position="center"
+            size="large"
+            v-if="loadingAction" />
         <Alert
             @setError="error = $event"
             :message="error"
