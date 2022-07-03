@@ -2,13 +2,12 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 7rem;
+    height: 7.8rem;
     right: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
-    background-color:  rgb(238, 87, 110);
     font-weight: bold;
     transform: translateY(-8rem);
     transition: .3s ease-in;
@@ -32,6 +31,26 @@
         -ms-border-radius: 50%;
         -o-border-radius: 50%;
     }
+
+    &--danger{
+        background-color:  rgb(238, 87, 110);
+        .alert__close-btn{
+            background-color:  rgb(183, 62, 80);
+        }
+    }
+    &--success{
+        background-color:  rgb(0, 166, 81);
+        .alert__close-btn{
+            background-color:  rgb(25, 123, 73);
+        }
+    }
+    &--info{
+        background-color:  rgb(235, 200, 27);
+        .alert__close-btn{
+            background-color:   rgb(163, 140, 24);
+        }
+    }
+    
 }
 
 .alert-filed{

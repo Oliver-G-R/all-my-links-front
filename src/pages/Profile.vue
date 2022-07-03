@@ -14,13 +14,17 @@
     import Alert from '../components/Alert.vue'
     import HandlerCardLink from '../components/HandlerCardLink.vue'
     import Loader from '../components/Loader.vue'
+    import { ResponseTypeAlert } from '../models/Alert'
 
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
     const activeModal = ref(false)
     const actionTypeModal = ref<'update' | 'save'>('save')
     const currentLinkToUpdate = reactive<Partial<Ilinks>>({})
-    const error = ref<string | null>(null)
+    const responseActionAlert = ref<ResponseTypeAlert>({
+        message: null,
+        type: 'Info'
+    })
     const loadingAction = ref(false)
 
     const ownerUser = computed(() => store.state.user.profileOwnerUser)
@@ -45,8 +49,9 @@
             size="large"
             v-if="loadingAction" />
         <Alert
-            @setError="error = $event"
-            :message="error"
+            @setStateAlert="responseActionAlert.message = $event"
+            :message="responseActionAlert.message"
+            :type="responseActionAlert.type"
         />
         <p v-if="loading" > loading </p>
         <p v-if="!user && !errorResponse && !loading" >
@@ -105,7 +110,7 @@
                         :currentPrincippalAccount="user.principalAccount"
                         :toggleModal="toggleModal"
                         @setLinkToUpdate="currentLinkToUpdate = $event"
-                        @setError="error = $event"
+                        @setStateAlert="responseActionAlert = $event"
                         @setLoading="loadingAction = $event"
                     />
                 </CardLink>
@@ -118,9 +123,11 @@
             :title="actionTypeModal === 'save' ? 'Add new social link' : 'Update social link'">
             <FormLinks
                 v-if="actionTypeModal === 'save'"
+                @setStateAlert="responseActionAlert = $event"
                 :toggleModal="toggleModal" />
             <FormLinks
                 v-else
+                @setStateAlert="responseActionAlert = $event"
                 :toggleModal="toggleModal"
                 :link="(currentLinkToUpdate as Ilinks)"
             />

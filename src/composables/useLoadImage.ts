@@ -3,7 +3,7 @@ import { ref } from 'vue'
 const allowedExtensions = ['image/jpeg', 'image/png']
 
 export const useLoadImage = () => {
-    const errorFieldSelected = ref('')
+    const errorImageSelected = ref('')
     const uploadFileImage = ref<File | null>()
     const imagePreview = ref<null | string>(null)
 
@@ -13,7 +13,7 @@ export const useLoadImage = () => {
         const uniqueFile = fileList[0]
 
         if (uniqueFile && allowedExtensions.includes(uniqueFile.type)) {
-            errorFieldSelected.value = ''
+            errorImageSelected.value = ''
             const reader = new FileReader()
             uploadFileImage.value = uniqueFile
             reader.onloadend = () => {
@@ -21,12 +21,12 @@ export const useLoadImage = () => {
             }
             reader.readAsDataURL(uniqueFile)
         } else {
-            errorFieldSelected.value = 'Error file, please select other'
+            errorImageSelected.value = 'Error file, please select other'
         }
     }
 
     return {
-        errorFieldSelected,
+        errorImageSelected,
         uploadFileImage,
         imagePreview,
         profileImageChange

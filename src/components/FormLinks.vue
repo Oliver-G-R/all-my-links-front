@@ -7,17 +7,20 @@
     import { rulesValidateLinks } from '../helpers/validates'
     import { Ilinks } from '../models/Auth/User'
     import { getError } from '../helpers/errors'
-    import Alert from './Alert.vue'
     import { IState } from '../store/index'
+    import { ResponseTypeAlert } from '../models/Alert'
 
     const store = useStore<IState>()
     const props = defineProps<{
         toggleModal: Function,
         link?:Ilinks
     }>()
+    const emits = defineEmits<{
+        (e: 'setStateAlert', stAlert: ResponseTypeAlert): void,
+    }>()
+    const loading = ref(false)
     const currentPrincippalAccount = computed(() => store.state.user.profileOwnerUser.principalAccount)
 
-    const error = ref<string | null>(null)
     const socialIcon = ref()
     const socialIconValues = reactive<{
         link: string
@@ -45,45 +48,60 @@
             } else {
                 update()
             }
-         }
+        }
     }
 
     const update = async () => {
+        loading.value = true
         const response = await updateLink({
             ...socialIconValues,
             socialIcon: socialIcon.value
         }, props.link?.id as string)
+        loading.value = false
 
         if (!response.message) {
             store.commit('user/updateLinks', response)
             currentPrincippalAccount.value?.id === response.id &&
                 store.commit('user/setPrincipalAccount', response)
 
-            props.toggleModal()
+            emits('setStateAlert', {
+                message: 'Link has been updated',
+                type: 'Success'
+            })
         } else {
-            error.value = getError(response.message)
+            emits('setStateAlert', {
+                message: getError(response.message),
+                type: 'Error'
+            })
         }
+        props.toggleModal()
     }
 
     const save = async () => {
+        loading.value = true
         const response = await createNewLink({
             ...socialIconValues,
             socialIcon: socialIcon.value
         })
+        loading.value = false
 
         if (response?.id) {
             store.commit('user/setLinksUser', response)
-            props.toggleModal()
+            emits('setStateAlert', {
+                message: 'Link has been created',
+                type: 'Success'
+            })
         } else {
-            error.value = getError(response.message)
+            emits('setStateAlert', {
+                message: getError(response.message),
+                type: 'Error'
+            })
         }
+
+        props.toggleModal()
     }
 </script>
 <template>
-    <Alert
-        :message="error"
-        @set-error="error = $event"
-    />
     <form @submit.prevent="handdleAction" class="form-links">
         <input
             v-model="socialIconValues.titleLink"
@@ -117,8 +135,9 @@
                 }"
                 >
         </div>
-
-        <button class="form-links__btn-save">{{props.link ?  "Update" : "Save"}}</button>
+        <button class="form-links__btn-save">
+            {{loading ? 'loading...' : props.link ?  "Update" : "Save"}}
+        </button>
 
     </form>
 </template>

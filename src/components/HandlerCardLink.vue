@@ -6,6 +6,7 @@
     import { createPrincipalAccount, deletePrincipalAccount, removeLink } from '../services/Links'
     import { getError } from '../helpers/errors'
     import { Ilinks } from '../models/Auth/User'
+    import { ResponseTypeAlert } from '../models/Alert'
 
     const store = useStore<IState>()
 
@@ -21,7 +22,7 @@
 
     const emits = defineEmits<{
         (e: 'setLinkToUpdate', link:Ilinks): void,
-        (e: 'setError', err:string | null): void,
+        (e: 'setStateAlert', stAlert: ResponseTypeAlert): void,
         (e: 'setLoading', load:boolean): void,
     }>()
 
@@ -48,7 +49,10 @@
              props.currentPrincippalAccount?.id === props.id &&
                 store.commit('user/setPrincipalAccount', null)
         } else {
-            emits('setError', response.message)
+            emits('setStateAlert', {
+                message: response.message,
+                type: 'Error'
+            })
         }
     }
 
@@ -59,7 +63,10 @@
             store.commit('user/setPrincipalAccount', response)
             listActions.value?.classList.toggle('activ')
         } else {
-            emits('setError', getError(response.message))
+            emits('setStateAlert', {
+                message: getError(response.message),
+                type: 'Error'
+            })
         }
     }
 
@@ -70,7 +77,10 @@
             store.commit('user/setPrincipalAccount', null)
             listActions.value?.classList.toggle('activ')
         } else {
-            emits('setError', getError(response.message))
+            emits('setStateAlert', {
+                message: getError(response.message),
+                type: 'Error'
+            })
         }
     }
 

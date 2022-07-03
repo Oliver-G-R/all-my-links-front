@@ -1,18 +1,30 @@
 <script lang="ts" setup>
     import { getError } from '../helpers/errors'
+    import { AlertState } from '../models/Alert'
+    import { watch } from 'vue'
 
     interface Props{
-        message: string | string[] | null
+        message: string | string[] | null,
+        type: AlertState
     }
 
-    const emits = defineEmits<{(e: 'setError', err: string | null): void}>()
+    const emits = defineEmits<{(e: 'setStateAlert', stAlert: null): void}>()
 
     const props = defineProps<Props>()
+
+    watch(() => props.message, () => {
+        setTimeout(() => {
+            emits('setStateAlert', null)
+        }, 2000)
+    })
 </script>
 
 <template>
     <div :class="['alert', {
-        'activ': props.message || ''
+        'activ': props.message || '',
+        'alert--success': props.type === 'Success',
+        'alert--info': props.type === 'Info',
+        'alert--danger': props.type === 'Error'
     }]">
         <p class="alert__title">
             {{
@@ -21,7 +33,7 @@
         </p>
         <button
             class="alert__close-btn"
-            @click="() => emits('setError', null)"
+            @click="() => emits('setStateAlert', null)"
             >
             x
         </button>
