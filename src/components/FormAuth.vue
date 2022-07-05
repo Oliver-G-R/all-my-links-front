@@ -7,14 +7,18 @@
     import { IState } from '../store/index'
     import { catchError, getError } from '../helpers/errors'
     import { IResponseAuth } from '../models/Auth/Auth'
+    import { ResponseTypeAlert } from '../models/Alert'
 
     interface Props{
         typeForm: 'sign-in' | 'sign-up'
     }
+    const errorResponse = ref<ResponseTypeAlert>({
+        message: null,
+        type: 'Info'
+    })
 
     const store = useStore<IState>()
     const props = defineProps<Props>()
-    const error = ref<string | null>(null)
 
     const { typeForm } = toRefs(props)
 
@@ -64,14 +68,17 @@
                 }
             } catch (e) {
                 console.log(e)
-                error.value = getError(catchError<IResponseAuth>(e).message)
+                errorResponse.value = {
+                    message: getError(catchError<IResponseAuth>(e).message),
+                    type: 'Error'
+                }
             }
         }
     }
 
     onUnmounted(() => {
-        if (error.value) {
-            error.value = ''
+        if (errorResponse.value.message) {
+            errorResponse.value.message = ''
         }
     })
 
@@ -79,8 +86,9 @@
 
 <template>
     <Alert
-        @setError="error = $event"
-        :message="error"/>
+        @setStateAlert="errorResponse.message = $event"
+        :type="errorResponse.type"
+        :message="errorResponse.message"/>
     <form class="form-auth" @submit.prevent="handleSubmit">
         <input
             v-if="typeForm === 'sign-in'"

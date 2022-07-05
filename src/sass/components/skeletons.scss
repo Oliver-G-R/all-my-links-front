@@ -1,0 +1,50 @@
+
+@mixin backgroundGradient {
+    animation: shine-lines 1s infinite linear;
+    -webkit-animation: shine-lines 2s infinite linear;
+    background-image: linear-gradient(90deg, #e6e6e6 0px, rgba(250, 250, 250, 0.436) 40px, #e6e6e6 80px);   
+}
+
+
+.skeleton-card-user{
+    &__name, &__nickName{
+        height: 1rem;
+       
+    }
+    &__name, &__nickName, &__avatar, &__link-card{
+       @include backgroundGradient;  
+    }
+
+    &__name{
+        width: 10rem;
+        margin-bottom: 1rem;
+    }
+
+    &__nickName{
+        width: 7rem;
+    }
+}
+
+.skeleton-profile-names{
+    @include backgroundGradient; 
+    box-shadow: none!important;
+
+    &__name, &__nickName{
+        @include backgroundGradient; 
+        height: 1.3rem;
+        width: 10rem;
+        margin-bottom: 2rem;
+    }
+
+    &__name{
+        margin:1rem 0;
+        width: 13rem;
+    }
+
+}
+
+@keyframes shine-lines{
+    to {
+        background-position: 315px 0, 0 0, 0 190px, 50px 195px;
+    }
+}
