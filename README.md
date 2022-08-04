@@ -3,7 +3,6 @@
 ## Características
 - Composition api + TypeScript
 - SPA 
-- Sockets
 - Autenticación con JWT
 - Rutas protegidas
 - Estados globales con Vuex usando modulos independientes
