@@ -4,7 +4,6 @@ const productionMode = import.meta.env.PROD
 
 const urlApi = productionMode ? prodApi : 'http://localhost:3000/all-my-links-api/v1'
 
-console.log('urlApi', urlApi)
 export const linksApi = axios.create({
     baseURL: urlApi
 })

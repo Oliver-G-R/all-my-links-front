@@ -63,7 +63,6 @@ const actions: ActionTree<AuthState, IState> = {
             })
         }
        } catch (error) {
-        console.log(error)
        }
     }
 }

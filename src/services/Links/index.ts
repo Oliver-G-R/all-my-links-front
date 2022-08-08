@@ -54,7 +54,6 @@ const createPrincipalAccount = async (idLink:string):Promise<ILinksResponse> => 
 
         return response.data
     } catch (error) {
-        console.log(error)
         return catchError(error)
     }
 }
@@ -69,7 +68,6 @@ const deletePrincipalAccount = async (idLink:string):Promise<IResponseError> => 
 
         return response.data
     } catch (error) {
-        console.log(error)
         return catchError(error)
     }
 }

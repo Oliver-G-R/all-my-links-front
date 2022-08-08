@@ -67,7 +67,6 @@
                     })
                 }
             } catch (e) {
-                console.log(e)
                 errorResponse.value = {
                     message: getError(catchError<IResponseAuth>(e).message),
                     type: 'Error'
