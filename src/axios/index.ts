@@ -1,5 +1,6 @@
 import axios from 'axios'
+const urlApi = import.meta.env.VITE_API_URL
 
 export const linksApi = axios.create({
-    baseURL: 'http://localhost:4000/all-my-links-api/v1'
+    baseURL: urlApi
 })
