@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { computed, ref, reactive } from 'vue'
+    import { computed, ref } from 'vue'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
 
@@ -21,7 +21,7 @@
     const userIdWithSession = computed(() => store.state.auth.user.id)
     const activeModal = ref(false)
     const actionTypeModal = ref<'update' | 'save'>('save')
-    const currentLinkToUpdate = reactive<Partial<Ilinks>>({})
+    const currentLinkToUpdate = ref<Partial<Ilinks>>({})
     const responseActionAlert = ref<ResponseTypeAlert>({
         message: null,
         type: 'Info'
