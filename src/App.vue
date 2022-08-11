@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, computed, watch } from 'vue'
   import { useStore } from 'vuex'
-  import HeaderNav from './components/HeaderNav.vue'
+  import { HeaderNav } from './components/HeaderNav/index'
   import { IState } from './store/index'
   const store = useStore<IState>()
   const token = computed(() => store.state.auth.user.token)

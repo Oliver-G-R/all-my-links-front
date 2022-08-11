@@ -1,4 +1,4 @@
-.header{
+.header-nav{
     background-color: rgb(17, 88, 132);
     &__logo{
         font-weight: bold;
@@ -8,19 +8,34 @@
     &__nav{
         display: flex;
         justify-content: space-around;
-        align-items: center;
         padding: 1rem 0;
     }
 
     &__list-nav{
         display: flex;
+        align-items: center;
         gap: 2rem;
+    }
+
+    &__nickName{
+        color: rgb(255, 255, 255);
+        font-size: 1.7rem;
+        font-weight: bold;
     }
     
     &__link{
         font-size: 1.8rem;
         color: #fff;
         transition: ease-in-out .3s;
+    }
+
+    &__content-profile {
+        position: relative;
+        .container{
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
     }
 
 }

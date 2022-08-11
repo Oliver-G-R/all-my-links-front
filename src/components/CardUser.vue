@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-    import defaultProfileImage from '../assets/user.png'
     import { Ilinks } from '../models/Auth/User'
     import CardLink from './CardLink.vue'
+    import ProfileAvatar from './ProfileAvatar.vue'
 
     interface Props{
         principalAccount: Ilinks | null
@@ -16,9 +16,7 @@
     <article class="card-user">
         <header class="card-user__header">
             <div class="card-user__avatar">
-                <img
-                    :src="props.avatar_url || defaultProfileImage"
-                    :alt="props.nickName">
+                <ProfileAvatar :avatar_url="(props.avatar_url as string)" />
             </div>
             <div class="card-user__names">
                 <h2 class="card-user__name">{{props.fullName}}</h2>

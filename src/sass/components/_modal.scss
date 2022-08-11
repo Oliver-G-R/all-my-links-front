@@ -40,6 +40,68 @@
 
 }
 
+
+.profile-modal{
+    position: absolute;
+    background-color: #fff;
+    z-index: 2;
+    padding: 1rem;
+    border-radius: .5rem;
+    top: 5rem;
+    left: -9rem;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+    &__list{
+        margin-top: 1rem;
+        width: 100%;
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+       
+        button , a{
+            width: 100%;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+        button{
+            border: 0;
+            background-color: transparent;
+            text-align: left;
+
+        }
+    }
+
+    &__header{
+        line-height: 2.3rem;
+    }
+    
+    &__fullName{
+        font-size: 1.8rem;
+        font-weight: 400;
+    }
+    &::after{
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+        top: -9px;
+        right: 9px;
+    }
+}
+
+
+
+
+
+
+
+//generic modal
 @media screen and (max-width: 547px){
     .modal{
         &__container-modal{

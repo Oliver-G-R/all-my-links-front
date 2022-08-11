@@ -3,8 +3,6 @@
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
 
-    import defaultProfileImage from '../assets/user.png'
-
     import { useGetUserByUrl } from '../composables/useGetUserByUrl'
 
     import CardLink from '../components/CardLink.vue'
@@ -16,6 +14,7 @@
     import Loader from '../components/Loader.vue'
     import { ResponseTypeAlert } from '../models/Alert'
     import ProfileNamesUser from '../components/skeleton/ProfileNamesUser.vue'
+    import ProfileAvatar from '../components/ProfileAvatar.vue'
 
     const store = useStore<IState>()
     const userIdWithSession = computed(() => store.state.auth.user.id)
@@ -44,7 +43,7 @@
 
 <template>
     <p v-if="errorResponse">{{errorResponse}}</p>
-    <main v-else>
+    <main v-else-if="user">
         <Loader
             position="center"
             size="large"
@@ -54,93 +53,88 @@
             :message="responseActionAlert.message"
             :type="responseActionAlert.type"
         />
-       <!--  <p v-if="loading" > loading </p>
-        <p v-if="!user && !errorResponse && !loading" >
-            No user found
-        </p> -->
-        <section
-            class="section-profile"
-            >
-           <div class="section-profile__container">
-                <div class="section-profile__content">
-                    <ProfileNamesUser v-if="loading" />
-                    <template v-else>
-                        <div class="section-profile__container-avatar">
-                            <img
-                                :src="user?.avatar_url || defaultProfileImage"
-                                alt="avatar">
-                        </div>
-                        <h1 >{{user?.fullName}}</h1>
-                        <span>{{user?.nickName}}</span>
-                   </template>
-                </div>
-
-                <div class="section-profile__content-btns">
-                    <button
-                        v-if="isOwner"
-                        @click="toggleModal('save')"
-                        class="section-profile__btn-profile section-profile__btn-profile--add" >
-                        +
-                    </button>
-                    <router-link
-                        v-if="isOwner"
-                        class="section-profile__btn-profile"
-                        to="/settings/profile">Update Profile</router-link>
-                    <button
-                        class="section-profile__btn-profile">
-                        Share profile
-                    </button>
-                </div>
-           </div>
-        </section>
-
-        <section v-if="loading" class="container section-profile-links" >
-             <div  class="section-profile-links__content">
-                <article v-for="(_, index) in 8" :key="index" class="card-link skeleton-card-user__link-card"></article>
-            </div>
-        </section>
-        <section v-else-if="user?.links" class="container section-profile-links">
-            <h2 v-if="user.principalAccount">
-                Principal Account
-            </h2>
-
-            <div class="section-profile-links__content">
-                <CardLink
-                    v-for="item in user.links"
-                    v-bind="item"
-                    :key="item.id"
-                    :currentPrincippalAccount="user.principalAccount"
+            <section
+                class="section-profile"
                 >
-                    <HandlerCardLink
-                        :titleLink="item.titleLink"
-                        :link="item.link"
-                        :socialIcon="item.socialIcon"
-                        :id="item.id"
-                        :isOwner="isOwner"
-                        :currentPrincippalAccount="user.principalAccount"
-                        :toggleModal="toggleModal"
-                        @setLinkToUpdate="currentLinkToUpdate = $event"
-                        @setStateAlert="responseActionAlert = $event"
-                        @setLoading="loadingAction = $event"
-                    />
-                </CardLink>
-            </div>
-        </section>
+               <div class="section-profile__container">
+                    <div class="section-profile__content">
+                        <ProfileNamesUser v-if="loading" />
+                        <template v-else>
+                            <div class="section-profile__container-avatar">
+                               <ProfileAvatar
+                                    :avatar_url="(user.avatar_url as string)" />
+                            </div>
+                            <h1 >{{user?.fullName}}</h1>
+                            <span>{{user?.nickName}}</span>
+                       </template>
+                    </div>
 
-        <Modal
-            v-if="activeModal"
-            :toggleModal="toggleModal"
-            :title="actionTypeModal === 'save' ? 'Add new social link' : 'Update social link'">
-            <FormLinks
-                v-if="actionTypeModal === 'save'"
-                @setStateAlert="responseActionAlert = $event"
-                :toggleModal="toggleModal" />
-            <FormLinks
-                v-else
-                @setStateAlert="responseActionAlert = $event"
+                    <div class="section-profile__content-btns">
+                        <button
+                            v-if="isOwner"
+                            @click="toggleModal('save')"
+                            class="section-profile__btn-profile section-profile__btn-profile--add" >
+                            +
+                        </button>
+                        <router-link
+                            v-if="isOwner"
+                            class="section-profile__btn-profile"
+                            to="/settings/profile">Update Profile</router-link>
+                        <button
+                            class="section-profile__btn-profile">
+                            Share profile
+                        </button>
+                    </div>
+               </div>
+            </section>
+
+            <section v-if="loading" class="container section-profile-links" >
+                 <div  class="section-profile-links__content">
+                    <article v-for="(_, index) in 8" :key="index" class="card-link skeleton-card-user__link-card"></article>
+                </div>
+            </section>
+            <section v-else-if="user.links" class="container section-profile-links">
+                <h2 v-if="user.principalAccount">
+                    Principal Account
+                </h2>
+
+                <div class="section-profile-links__content">
+                    <CardLink
+                        v-for="item in user.links"
+                        v-bind="item"
+                        :key="item.id"
+                        :currentPrincippalAccount="user.principalAccount"
+                    >
+                        <HandlerCardLink
+                            :titleLink="item.titleLink"
+                            :link="item.link"
+                            :socialIcon="item.socialIcon"
+                            :id="item.id"
+                            :isOwner="isOwner"
+                            :currentPrincippalAccount="user.principalAccount"
+                            :toggleModal="toggleModal"
+                            @setLinkToUpdate="currentLinkToUpdate = $event"
+                            @setStateAlert="responseActionAlert = $event"
+                            @setLoading="loadingAction = $event"
+                        />
+                    </CardLink>
+                </div>
+            </section>
+
+            <Modal
+                v-if="activeModal"
                 :toggleModal="toggleModal"
-                :link="(currentLinkToUpdate as Ilinks)"
-            />
-        </Modal>
+                :title="actionTypeModal === 'save' ? 'Add new social link' : 'Update social link'">
+                <FormLinks
+                    v-if="actionTypeModal === 'save'"
+                    @setStateAlert="responseActionAlert = $event"
+                    :toggleModal="toggleModal" />
+                <FormLinks
+                    v-else
+                    @setStateAlert="responseActionAlert = $event"
+                    :toggleModal="toggleModal"
+                    :link="(currentLinkToUpdate as Ilinks)"
+                />
+            </Modal>
     </main>
 </template>
