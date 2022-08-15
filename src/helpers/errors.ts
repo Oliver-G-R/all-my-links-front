@@ -1,16 +1,19 @@
-const getError = (error: Array<string> | string):string =>
-    typeof error === 'string'
-                    ? error
-                    : error[0]
+import { IResponseError } from '../models/Auth/Auth'
+const getError = (error: Array<string> | string): string =>
+  typeof error === 'string' ? error : error[0]
 
-const catchError = <T>(error:any):T => {
-    if (error.response.data) {
-        return error.response.data
-    } else {
-        return error
+const catchError = (error: any): IResponseError => {
+  console.clear()
+  if (error.response) {
+    return {
+      statusCode: error.response.status,
+      message: getError(error.response.data.message || error.message)
     }
+  } else {
+    return {
+      statusCode: 500,
+      message: 'Something went wrong'
+    }
+  }
 }
-export {
-    getError,
-    catchError
-}
+export { getError, catchError }

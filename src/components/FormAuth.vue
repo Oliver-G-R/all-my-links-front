@@ -5,14 +5,13 @@
     import { IinputData } from '../models/FormAuth/index'
     import { useStore } from 'vuex'
     import { IState } from '../store/index'
-    import { catchError, getError } from '../helpers/errors'
-    import { IResponseAuth } from '../models/Auth/Auth'
+    import { catchError } from '../helpers/errors'
     import { ResponseTypeAlert } from '../models/Alert'
 
     interface Props{
         typeForm: 'sign-in' | 'sign-up'
     }
-    const errorResponse = ref<ResponseTypeAlert>({
+    const messageAlert = ref<ResponseTypeAlert>({
         message: null,
         type: 'Info'
     })
@@ -67,8 +66,8 @@
                     })
                 }
             } catch (e) {
-                errorResponse.value = {
-                    message: getError(catchError<IResponseAuth>(e).message),
+                messageAlert.value = {
+                    message: catchError(e).message,
                     type: 'Error'
                 }
             }
@@ -76,8 +75,8 @@
     }
 
     onUnmounted(() => {
-        if (errorResponse.value.message) {
-            errorResponse.value.message = ''
+        if (messageAlert.value.message) {
+            messageAlert.value.message = ''
         }
     })
 
@@ -85,9 +84,9 @@
 
 <template>
     <Alert
-        @setStateAlert="errorResponse.message = $event"
-        :type="errorResponse.type"
-        :message="errorResponse.message"/>
+        @setStateAlert="messageAlert.message = $event"
+        :type="messageAlert.type"
+        :message="messageAlert.message"/>
     <form class="form-auth" @submit.prevent="handleSubmit">
         <input
             v-if="typeForm === 'sign-in'"

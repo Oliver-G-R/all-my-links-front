@@ -6,7 +6,6 @@ import { IglobalUsers, Iuser } from '../../models/Auth/User'
 import { TOKEN_USER } from '../../constants/auth'
 import router from '../../router/index.router'
 import { catchError } from '../../helpers/errors'
-import { IResponseError } from '../../models/Auth/Auth'
 const actions: ActionTree<UserState, IState> = {
     async getUsers ({ commit }) {
         const response = await linksApi.get<IglobalUsers>('user/global-users')
@@ -24,7 +23,7 @@ const actions: ActionTree<UserState, IState> = {
             })
             commit('setOwnerProfileUser', response.data)
         } catch (error) {
-            if (catchError<IResponseError>(error)?.error === 'Not Found') {
+            if (catchError(error)?.message === 'Not Found') {
                 window.localStorage.removeItem(TOKEN_USER)
                 store.commit('auth/setDataUser', {
                     isActive: false,

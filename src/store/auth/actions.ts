@@ -24,20 +24,14 @@ const actions: ActionTree<AuthState, IState> = {
     },
 
     async signUp ({ commit }, payload:ISignUp) {
-        const response = await linksApi.post<IResponseAuth>('/auth/signUp', {
+        await linksApi.post('/auth/signUp', {
             email: payload.email,
             password: payload.password,
             fullName: payload.fullName,
             nickName: payload.nickName
         })
 
-        window.localStorage.setItem(TOKEN_USER, response.data.token)
-        commit('setDataUser', {
-            token: response.data.token,
-            isActive: true,
-            id: response.data.user.id
-        })
-        router.push(`/${response.data.user.nickName}`)
+        router.push('/auth/verify')
     },
 
     logout ({ commit }) {

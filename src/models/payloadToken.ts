@@ -5,3 +5,7 @@ export interface IPayloadToken {
     id: string
     nickName: string
 }
+
+export interface IPayloadVerifyToken extends Omit<IPayloadToken, 'id'> {
+    fullName: string
+}

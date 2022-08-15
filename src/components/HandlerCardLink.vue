@@ -4,8 +4,8 @@
     import { IState } from '../store/index'
 
     import { createPrincipalAccount, deletePrincipalAccount, removeLink } from '../services/Links'
-    import { getError } from '../helpers/errors'
-    import { Ilinks } from '../models/Auth/User'
+    import { catchError } from '../helpers/errors'
+    import { Ilink } from '../models/Auth/User'
     import { ResponseTypeAlert } from '../models/Alert'
 
     const store = useStore<IState>()
@@ -17,11 +17,11 @@
         id: string,
         isOwner: boolean
         toggleModal:(typeModalAction?: 'save' | 'update') => void,
-        currentPrincippalAccount: Ilinks | null
+        currentPrincippalAccount: Ilink | null
     }>()
 
     const emits = defineEmits<{
-        (e: 'setLinkToUpdate', link:Ilinks): void,
+        (e: 'setLinkToUpdate', link:Ilink): void,
         (e: 'setStateAlert', stAlert: ResponseTypeAlert): void,
         (e: 'setLoading', load:boolean): void,
     }>()
@@ -43,14 +43,14 @@
         emits('setLoading', true)
         const response = await removeLink(props.id)
         emits('setLoading', false)
-        if (!response.message) {
+        if (!response.error) {
             store.commit('user/removeLink', props.id)
             listActions.value?.classList.toggle('activ')
              props.currentPrincippalAccount?.id === props.id &&
                 store.commit('user/setPrincipalAccount', null)
         } else {
             emits('setStateAlert', {
-                message: response.message,
+                message: 'Error to remove link',
                 type: 'Error'
             })
         }
@@ -59,12 +59,12 @@
     const setPrincipalAccount = async () => {
         const response = await createPrincipalAccount(props.id)
         emits('setLoading', false)
-        if (!response.message) {
-            store.commit('user/setPrincipalAccount', response)
+        if (response.data) {
+            store.commit('user/setPrincipalAccount', response.data)
             listActions.value?.classList.toggle('activ')
         } else {
             emits('setStateAlert', {
-                message: getError(response.message),
+                message: catchError(response.error).message,
                 type: 'Error'
             })
         }
@@ -73,12 +73,12 @@
     const removePrincipalAccount = async () => {
         const response = await deletePrincipalAccount(props.id)
         emits('setLoading', false)
-        if (!response.message) {
+        if (!response.error) {
             store.commit('user/setPrincipalAccount', null)
             listActions.value?.classList.toggle('activ')
         } else {
             emits('setStateAlert', {
-                message: getError(response.message),
+                message: catchError(response.error).message,
                 type: 'Error'
             })
         }

@@ -20,8 +20,8 @@ const state = (): UserState => {
             nickName: '',
             updatedAt: new Date(),
             createdAt: new Date(),
-            avatar_public_id: null,
-            avatar_url: null,
+            avatar_public_id: '',
+            avatar_url: '',
             principalAccount: null,
             bio: '',
             fullName: ''

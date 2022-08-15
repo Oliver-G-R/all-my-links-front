@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     import defaultProfileImage from '../assets/user.png'
     const props = defineProps<{
-      avatar_url:string,
+      avatar_url?:string,
       size?: 'small' | 'medium' | 'large'
     }>()
 

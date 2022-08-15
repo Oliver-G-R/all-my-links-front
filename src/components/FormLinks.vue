@@ -5,15 +5,15 @@
     import { useStore } from 'vuex'
     import useValidate from '@vuelidate/core'
     import { rulesValidateLinks } from '../helpers/validates'
-    import { Ilinks } from '../models/Auth/User'
-    import { getError } from '../helpers/errors'
+    import { Ilink } from '../models/Auth/User'
+    import { catchError } from '../helpers/errors'
     import { IState } from '../store/index'
     import { ResponseTypeAlert } from '../models/Alert'
 
     const store = useStore<IState>()
     const props = defineProps<{
         toggleModal: Function,
-        link?:Ilinks
+        link?:Ilink
     }>()
     const emits = defineEmits<{
         (e: 'setStateAlert', stAlert: ResponseTypeAlert): void,
@@ -59,10 +59,10 @@
         }, props.link?.id as string)
         loading.value = false
 
-        if (!response.message) {
-            store.commit('user/updateLinks', response)
-            currentPrincippalAccount.value?.id === response.id &&
-                store.commit('user/setPrincipalAccount', response)
+        if (response.data) {
+            store.commit('user/updateLinks', response.data)
+            currentPrincippalAccount.value?.id === response.data.id &&
+                store.commit('user/setPrincipalAccount', response.data)
 
             emits('setStateAlert', {
                 message: 'Link has been updated',
@@ -70,7 +70,7 @@
             })
         } else {
             emits('setStateAlert', {
-                message: getError(response.message),
+                message: catchError(response.error).message,
                 type: 'Error'
             })
         }
@@ -85,15 +85,15 @@
         })
         loading.value = false
 
-        if (response?.id) {
-            store.commit('user/setLinksUser', response)
+        if (response?.data) {
+            store.commit('user/setLinksUser', response.data)
             emits('setStateAlert', {
                 message: 'Link has been created',
                 type: 'Success'
             })
         } else {
             emits('setStateAlert', {
-                message: getError(response.message),
+                message: catchError(response.error).message,
                 type: 'Error'
             })
         }

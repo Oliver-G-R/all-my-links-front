@@ -36,7 +36,7 @@
 
                         <ProfileAvatar
                             @click="toggleModalProfile = !toggleModalProfile" size="small"
-                            :avatar_url="(ownerUser.avatar_url as string)" />
+                            :avatar_url="ownerUser.avatar_url" />
                     </div>
                     <ModalProfile @toggle-modal-profile="toggleModalProfile = $event" v-if="toggleModalProfile" />
                 </li>

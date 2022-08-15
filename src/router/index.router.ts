@@ -5,6 +5,7 @@ import SignUp from '../pages/SignUp.vue'
 import SignIn from '../pages/SignIn.vue'
 import Profile from '../pages/Profile.vue'
 import ProfileEdit from '../pages/ProfileEdit.vue'
+import VerifyAccount from '../pages/VerifyAccount.vue'
 
 import Page404 from '../pages/404.vue'
 import { store } from '../store/index'
@@ -49,6 +50,16 @@ const routes:RouteRecordRaw[] = [
     component: ProfileEdit,
     meta: {
       requiresAuth: true
+    }
+  },
+  {
+    path: '/auth/verify/',
+    name: 'email-verify',
+    component: VerifyAccount,
+    beforeEnter: (to, from, next) => {
+      if (store.getters['auth/stateActivUser']) {
+        next('/')
+      } else next()
     }
   },
   {

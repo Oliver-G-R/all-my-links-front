@@ -5,7 +5,7 @@
     import defaultProfileImage from '../assets/user.png'
     import { IStateFieldsUser } from '../models/Auth/User'
     import { updateProfile, uploadAvatar } from '../services/User'
-    import { getError } from '../helpers/errors'
+    import { catchError } from '../helpers/errors'
     import { useLoadImage } from '../composables/useLoadImage'
     import Alert from '../components/Alert.vue'
     import Loader from '../components/Loader.vue'
@@ -48,15 +48,15 @@
         formData.append('file', uploadFileImage.value as File)
         const response = await uploadAvatar(formData)
         loadingUploadImage.value = false
-        if (response.message) {
+        if (response.error) {
             errorUploadAvatar.value = {
-                message: response.message,
+                message: response.error.message,
                 type: 'Error'
             }
-        } else {
+        } else if (response.data) {
             imagePreview.value = null
             uploadFileImage.value = null
-            store.commit('user/setProfileAvatar', response.avatar_url)
+            store.commit('user/setProfileAvatar', response.data.avatar_url)
             errorUploadAvatar.value = {
                 message: 'Update avatar successfully',
                 type: 'Success'
@@ -71,9 +71,9 @@
         const response = await updateProfile(fieldsProfile.value)
         loadingProfileData.value = false
 
-        if (response.message) {
+        if (response.error) {
             errorResponse.value = {
-                message: getError(response.message),
+                message: catchError(response.error).message,
                 type: 'Error'
             }
         } else {

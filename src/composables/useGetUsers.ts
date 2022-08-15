@@ -2,7 +2,6 @@ import { useStore } from 'vuex'
 import { IState } from '../store/index'
 import { onMounted, toRefs, ref } from 'vue'
 import { catchError, getError } from '../helpers/errors'
-import { IResponseError } from '../models/Auth/Auth'
 
 export const useGetUsers = () => {
     const store = useStore<IState>()
@@ -15,7 +14,7 @@ export const useGetUsers = () => {
         try {
             await store.dispatch('user/getUsers', id?.value)
         } catch (e) {
-            error.value = getError(catchError<IResponseError>(e).message)
+            error.value = getError(catchError(e).message)
         }
         loading.value = false
     })

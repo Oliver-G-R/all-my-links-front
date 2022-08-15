@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-    import { Ilinks } from '../models/Auth/User'
+    import { Ilink } from '../models/Auth/User'
     import CardLink from './CardLink.vue'
     import ProfileAvatar from './ProfileAvatar.vue'
 
     interface Props{
-        principalAccount: Ilinks | null
+        principalAccount: Ilink | null
         nickName: string
         avatar_url?: string
         fullName:string
@@ -16,7 +16,7 @@
     <article class="card-user">
         <header class="card-user__header">
             <div class="card-user__avatar">
-                <ProfileAvatar :avatar_url="(props.avatar_url as string)" />
+                <ProfileAvatar :avatar_url="props.avatar_url" />
             </div>
             <div class="card-user__names">
                 <h2 class="card-user__name">{{props.fullName}}</h2>

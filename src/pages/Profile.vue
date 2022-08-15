@@ -8,7 +8,7 @@
     import CardLink from '../components/CardLink.vue'
     import Modal from '../components/Modal.vue'
     import FormLinks from '../components/FormLinks.vue'
-    import { Ilinks } from '../models/Auth/User'
+    import { Ilink } from '../models/Auth/User'
     import Alert from '../components/Alert.vue'
     import HandlerCardLink from '../components/HandlerCardLink.vue'
     import Loader from '../components/Loader.vue'
@@ -20,7 +20,7 @@
     const userIdWithSession = computed(() => store.state.auth.user.id)
     const activeModal = ref(false)
     const actionTypeModal = ref<'update' | 'save'>('save')
-    const currentLinkToUpdate = ref<Partial<Ilinks>>({})
+    const currentLinkToUpdate = ref<Partial<Ilink>>({})
     const responseActionAlert = ref<ResponseTypeAlert>({
         message: null,
         type: 'Info'
@@ -133,7 +133,7 @@
                     v-else
                     @setStateAlert="responseActionAlert = $event"
                     :toggleModal="toggleModal"
-                    :link="(currentLinkToUpdate as Ilinks)"
+                    :link="(currentLinkToUpdate as Ilink)"
                 />
             </Modal>
     </main>

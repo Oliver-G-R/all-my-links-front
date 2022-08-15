@@ -1,54 +1,51 @@
 import { IResponseError } from './Auth'
 
-interface Ilinks{
+interface Ilink{
     titleLink: string
     link: string
     socialIcon: string
     id: string
 }
 
-interface ILinksResponse extends Ilinks, IResponseError {}
-interface IStateFieldsLinks extends Omit<Ilinks, 'id'>{}
+interface IStateFieldsLinks extends Omit<Ilink, 'id'>{}
 
-interface IAvatarResponse extends IResponseError{
-    avatar_url: string
+interface IGenericResponse<T>{
+    data?: T
+    error?: IResponseError
 }
 interface Iuser{
     createdAt: Date
     email: string
     id: string
-    links: Ilinks[]
-    principalAccount: Ilinks | null
+    links: Ilink[]
+    principalAccount: Ilink | null
     nickName: string
     updatedAt: Date
     fullName:string
     bio: string
-    avatar_public_id: string | null
-    avatar_url: string | null
+    avatar_public_id: string
+    avatar_url: string
 }
-interface IUserResponse extends Iuser, IResponseError{}
 interface IStateFieldsUser {
     nickName: string
     email: string
     fullName: string
     bio: string
-    avatar_url: string | null
+    avatar_url: string
 }
 interface IglobalUsers {
     id: string
     nickName: string
-    avatar_url: string | undefined
-    principalAccount: Ilinks | null
+    avatar_url: string
+    principalAccount: Ilink | null
     fullName:string
 }
 
 export type {
-    Ilinks,
+    Ilink,
     Iuser,
-    ILinksResponse,
     IglobalUsers,
     IStateFieldsLinks,
     IStateFieldsUser,
-    IUserResponse,
-    IAvatarResponse
+    IGenericResponse
 }

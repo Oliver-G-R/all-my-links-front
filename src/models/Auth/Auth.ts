@@ -13,8 +13,7 @@ interface ISignUp {
 }
 
 interface IResponseError {
-    message: Array<string> | string
-    error: string
+    message: string
     statusCode: number
 
 }

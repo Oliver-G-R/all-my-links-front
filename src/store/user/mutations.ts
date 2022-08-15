@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { Ilinks } from '../../models/Auth/User'
+import { Ilink } from '../../models/Auth/User'
 import { UserState } from './state'
 
 const mutation: MutationTree<UserState> = {
@@ -11,7 +11,7 @@ const mutation: MutationTree<UserState> = {
         state.globalUsers.users = users.users
     },
 
-    setLinksUser (state, link: Ilinks) {
+    setLinksUser (state, link: Ilink) {
         state.profileOwnerUser.links.push(link)
     },
 
@@ -19,7 +19,7 @@ const mutation: MutationTree<UserState> = {
         state.profileOwnerUser.avatar_url = avatar_url
     },
 
-    updateLinks (state, link:Ilinks) {
+    updateLinks (state, link:Ilink) {
         state.profileOwnerUser.links =
             state.profileOwnerUser.links.map(item =>
                 item.id === link.id ? link : item
@@ -31,7 +31,7 @@ const mutation: MutationTree<UserState> = {
             .filter(item => item.id !== id)
     },
 
-    setPrincipalAccount (state, link: Ilinks | null) {
+    setPrincipalAccount (state, link: Ilink | null) {
         state.profileOwnerUser.principalAccount = link
     }
 }
