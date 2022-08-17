@@ -1,3 +1,5 @@
+import { Iuser } from './Auth/User'
+
 export interface IPayloadToken {
     email: string
     exp: number
@@ -8,4 +10,10 @@ export interface IPayloadToken {
 
 export interface IPayloadVerifyToken extends Omit<IPayloadToken, 'id'> {
     fullName: string
+    pass: string
+}
+
+export interface JWTResponse{
+    token: string,
+    user: Iuser
 }
