@@ -6,9 +6,12 @@ import SignIn from '../pages/SignIn.vue'
 import Profile from '../pages/Profile.vue'
 import ProfileEdit from '../pages/ProfileEdit.vue'
 import VerifyAccount from '../pages/VerifyAccount.vue'
-
+import ResetPassword from '../pages/ResetPassword.vue'
+import ForgotPassword from '../pages/ForgotPassword.vue'
+import EmptyLayout from '../layouts/EmptyLayout.vue'
 import Page404 from '../pages/404.vue'
 import { store } from '../store/index'
+import { expiredToke } from '../helpers/validToken'
 
 const routes:RouteRecordRaw[] = [
   {
@@ -53,14 +56,34 @@ const routes:RouteRecordRaw[] = [
     }
   },
   {
-    path: '/auth/verify/',
-    name: 'email-verify',
-    component: VerifyAccount,
+    path: '/auth',
+    component: EmptyLayout,
     beforeEnter: (to, from, next) => {
       if (store.getters['auth/stateActivUser']) {
         next('/')
       } else next()
-    }
+    },
+
+    children: [
+      {
+        path: 'verify',
+        component: VerifyAccount
+      },
+      {
+        path: 'reset-password',
+        component: ResetPassword,
+        beforeEnter: (to, from, next) => {
+          if (!to.query.token || expiredToke(to.query.token as string)) {
+            next('/signIn')
+          } else next()
+        }
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPassword
+      }
+    ]
+
   },
   {
     path: '/:pathMatch(.*)*',

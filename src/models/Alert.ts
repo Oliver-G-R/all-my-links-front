@@ -1,7 +1,7 @@
 type AlertState = 'Info' | 'Success' | 'Error'
 interface ResponseTypeAlert {
     message: string | string[] | null
-    type: AlertState
+    type: AlertState | null
 }
 
 export type{

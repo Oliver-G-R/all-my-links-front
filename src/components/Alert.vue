@@ -5,7 +5,7 @@
 
     interface Props{
         message: string | string[] | null,
-        type: AlertState
+        type: AlertState | null
     }
 
     const emits = defineEmits<{(e: 'setStateAlert', stAlert: null): void}>()
@@ -15,7 +15,7 @@
     watch(() => props.message, () => {
         setTimeout(() => {
             emits('setStateAlert', null)
-        }, 2000)
+        }, 4000)
     })
 </script>
 
