@@ -50,7 +50,7 @@
 <template>
     <main class="container">
         <h1>
-            Send emial for reset password
+            Send email for reset password
         </h1>
         <p>
             A token will be sent to your email, you will have 1 minute to access it, otherwise you will need to re-enter your email within 2 minutes.
