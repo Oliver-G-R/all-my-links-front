@@ -35,7 +35,7 @@
     } = useLoadImage()
 
     const fieldsProfile = computed<IStateFieldsUser>(() => ({
-        nickName: dataOwner.value.nickName,
+        nickName: dataOwner.value.nickName.trim(),
         email: dataOwner.value.email,
         avatar_url: dataOwner.value.avatar_url,
         bio: dataOwner.value.bio,
@@ -66,21 +66,23 @@
 
     // TODO: VALIDAR QUE EL PROFILE COMPLETO NO SE ACTUALICE SI NO SE CAMBIA NADA
     const updateProfileHandler = async () => {
-        loadingProfileData.value = true
-        uploadFileImage.value && !errorImageSelected.value && upAvatar()
-        const response = await updateProfile(fieldsProfile.value)
-        loadingProfileData.value = false
+        if (/^[a-z0-9_.]+$/.test(fieldsProfile.value.nickName)) {
+            loadingProfileData.value = true
+            uploadFileImage.value && !errorImageSelected.value && upAvatar()
+            const response = await updateProfile(fieldsProfile.value)
+            loadingProfileData.value = false
 
-        if (response.error) {
-            errorResponse.value = {
-                message: catchError(response.error).message,
-                type: 'Error'
-            }
-        } else {
-            store.commit('user/setOwnerProfileUser', response)
-            errorResponse.value = {
-                message: 'Update profile successfully',
-                type: 'Success'
+            if (response.error) {
+                errorResponse.value = {
+                    message: catchError(response.error).message,
+                    type: 'Error'
+                }
+            } else {
+                store.commit('user/setOwnerProfileUser', response)
+                errorResponse.value = {
+                    message: 'Update profile successfully',
+                    type: 'Success'
+                }
             }
         }
     }
