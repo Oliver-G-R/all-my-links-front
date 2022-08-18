@@ -94,6 +94,7 @@
                 margin-bottom: 1rem;
                 outline: none;
                 border-width: 2px;
+                font-size: 1.6rem;
                 &.fail{
                     border-color: rgb(244, 133, 149);
                    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;

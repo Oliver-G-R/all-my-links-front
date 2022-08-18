@@ -91,6 +91,7 @@
                 padding: .5rem;
                 margin-bottom: 1rem;
                 outline: none;
+                font-size: 1.6rem;
             }
             button{
                 width: 100%;
