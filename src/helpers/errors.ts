@@ -4,7 +4,7 @@ const getError = (error: Array<string> | string): string =>
 
 const catchError = (error: any): IResponseError => {
   console.clear()
-  if (error.response) {
+  if (error.response?.data) {
     return {
       statusCode: error.response.status,
       message: getError(error.response.data.message || error.message)

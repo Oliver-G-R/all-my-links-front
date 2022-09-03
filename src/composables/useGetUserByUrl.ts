@@ -2,7 +2,6 @@ import { ref, watch, onMounted } from 'vue'
 import { Iuser } from '../models/Auth/User'
 import { getUserByNickName } from '../services/User'
 import { useRoute } from 'vue-router'
-import { catchError } from '../helpers/errors'
 
 export const useGetUserByUrl = () => {
     const user = ref<Iuser>()
@@ -16,7 +15,7 @@ export const useGetUserByUrl = () => {
         if (userResponse.data && userResponse.data.nickName && nickName) {
             user.value = userResponse.data
             error.value = null
-        } else error.value = catchError(userResponse.error).message
+        } else error.value = userResponse.error?.message as string
     }
 
     watch(() => route.params.nickName, (nickName) => {
