@@ -53,7 +53,7 @@
             Send email for reset password
         </h1>
         <p>
-            A token will be sent to your email, you will have 1 minute to access it, otherwise you will need to re-enter your email within 2 minutes.
+            A token will be sent to your email, you will have 5 minutes to access it, otherwise you will need to re-enter your email within 2 minutes.
         </p>
 
         <form @submit.prevent="sendEmail">
