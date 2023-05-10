@@ -7,7 +7,9 @@
     import { catchError } from '../helpers/errors'
     import { Ilink } from '../models/Auth/User'
     import { ResponseTypeAlert } from '../models/Alert'
+    import { onClickOutside } from '@vueuse/core'
 
+    const target = ref(null)
     const store = useStore<IState>()
 
     const props = defineProps<{
@@ -98,25 +100,31 @@
         navigator.clipboard.writeText(props.link)
         listActions.value?.classList.toggle('activ')
     }
+
+    onClickOutside(target, () => {
+        listActions.value?.classList.remove('activ')
+    })
 </script>
-<template>
-        <button @click="listActions?.classList.toggle('activ')" >...</button>
-        <ul
-            ref="listActions"
-            class="card-link__list-actions">
-            <li v-if="isOwner">
-                <button @click="removeLinkHandler" >Remove</button>
-            </li>
-            <li v-if="isOwner">
-                <button @click="updateLink">Update</button>
-            </li>
-            <li v-if="isOwner">
-                <button @click="handlerPrincipalAccount">
-                    {{ props.currentPrincippalAccount?.id === props.id ? 'Remove principal account' : 'Set principal account' }}
-                </button>
-            </li>
-            <li>
-                <button @click="copyLink">Copy Link</button>
-            </li>
-        </ul>
+<template >
+       <div ref="target">
+            <button @click="listActions?.classList.toggle('activ')" >...</button>
+            <ul
+                ref="listActions"
+                class="card-link__list-actions">
+                <li v-if="isOwner">
+                    <button @click="removeLinkHandler" >Remove</button>
+                </li>
+                <li v-if="isOwner">
+                    <button @click="updateLink">Update</button>
+                </li>
+                <li v-if="isOwner">
+                    <button @click="handlerPrincipalAccount">
+                        {{ props.currentPrincippalAccount?.id === props.id ? 'Remove principal account' : 'Set principal account' }}
+                    </button>
+                </li>
+                <li>
+                    <button @click="copyLink">Copy Link</button>
+                </li>
+            </ul>
+       </div>
 </template>
