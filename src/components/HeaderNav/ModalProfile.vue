@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { useStore } from 'vuex'
   import { IState } from '../../store/index'
+  import { onClickOutside } from '@vueuse/core'
 
   const store = useStore<IState>()
   const user = computed(() => store.state.user.profileOwnerUser)
@@ -9,17 +10,24 @@
     (e: 'toggleModalProfile', toggle: boolean): void,
   }>()
 
+  const target = ref(null)
+
   const logout = () => {
     store.dispatch('auth/logout')
     store.commit('user/setOwnerProfileUser', {})
     emit('toggleModalProfile', false)
   }
+
+  onClickOutside(target, () => {
+    emit('toggleModalProfile', false)
+  })
 </script>
 
 <template>
   <div class="profile-modal">
-    <header class="profile-modal__header">
-      <router-link @click="emit('toggleModalProfile', false)" :to="{
+    <header ref="target" class="profile-modal__header">
+      <router-link
+        @click="emit('toggleModalProfile', false)" :to="{
           name: 'profile',
           params: {
             nickName: user.nickName,
