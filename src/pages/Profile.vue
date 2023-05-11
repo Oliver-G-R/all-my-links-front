@@ -38,6 +38,9 @@
         if (typeAction) actionTypeModal.value = typeAction
         document.querySelector('body')?.classList.toggle('modal-open')
     }
+    const copyLink = () => {
+        navigator.clipboard.writeText(window.location.href)
+    }
 
 </script>
 
@@ -81,6 +84,7 @@
                             class="section-profile__btn-profile"
                             to="/settings/profile">Update Profile</router-link>
                         <button
+                            @click="copyLink()"
                             class="section-profile__btn-profile">
                             Share profile
                         </button>

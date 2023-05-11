@@ -15,7 +15,7 @@
     watch(() => props.message, () => {
         setTimeout(() => {
             emits('setStateAlert', null)
-        }, 4000)
+        }, 1000)
     })
 </script>
 
