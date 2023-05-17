@@ -6,6 +6,7 @@ import { IResponseAuth, ISignIn, ISignUp } from '../../models/Auth/Auth'
 import { TOKEN_USER } from '../../constants/auth'
 import { getAccessToken, getIDFromToken } from '../../helpers/validToken'
 import router from '../../router/index.router'
+import { useCookies } from 'vue3-cookies'
 
 const actions: ActionTree<AuthState, IState> = {
     async signIn ({ commit }, payload:ISignIn) {
@@ -14,7 +15,10 @@ const actions: ActionTree<AuthState, IState> = {
             password: payload.password
         })
 
-        window.localStorage.setItem(TOKEN_USER, response.data.token)
+        const { cookies } = useCookies()
+
+        cookies.set(TOKEN_USER, response.data.token)
+
         commit('setDataUser', {
             token: response.data.token,
             isActive: true,
@@ -35,7 +39,8 @@ const actions: ActionTree<AuthState, IState> = {
     },
 
     logout ({ commit }) {
-        window.localStorage.removeItem(TOKEN_USER)
+        const { cookies } = useCookies()
+        cookies.remove(TOKEN_USER)
         commit('setDataUser', {
             token: null,
             isActive: false,

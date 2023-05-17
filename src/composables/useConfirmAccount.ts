@@ -5,6 +5,7 @@ import { expiredToke, getDataFromToken } from '../helpers/validToken'
 import router from '../router/index.router'
 import { resendEmailWithToken, createUserAfterConfirm } from '../services/Auth'
 import { store } from '../store/index'
+import { useCookies } from 'vue3-cookies'
 
 export const useConfirmAccount = () => {
     const tokenQuery = ref()
@@ -31,6 +32,7 @@ export const useConfirmAccount = () => {
 
     const createUser = async () => {
         const resp = await createUserAfterConfirm(tokenQuery.value)
+        const { cookies } = useCookies()
         if (resp.data) {
             isVerify.value = true
             setTimeout(() => {
@@ -39,9 +41,9 @@ export const useConfirmAccount = () => {
                     isActive: true,
                     id: resp.data?.user.id
                 })
-                localStorage.setItem(TOKEN_USER, resp.data?.token as string)
                 router.push({ name: 'profile', params: { nickName: resp.data?.user.nickName } })
             }, 2000)
+            cookies.set(TOKEN_USER, resp.data.token)
         } else {
             error.value = 'Error to create user'
         }

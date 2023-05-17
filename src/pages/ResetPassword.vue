@@ -7,6 +7,7 @@
     import { useStore } from 'vuex'
     import router from '../router/index.router'
     import { TOKEN_USER } from '../constants/auth'
+    import { useCookies } from 'vue3-cookies'
 
     const alert = ref<ResponseTypeAlert>({
         message: '',
@@ -19,6 +20,7 @@
 
     const resetPass = async () => {
         const cleanPassword = password.value.trim()
+        const { cookies } = useCookies()
         if (cleanPassword.length > 8 && cleanPassword.length <= 20) {
             const response = await resetPassword(route.query.token as string, cleanPassword)
             if (response.data) {
@@ -27,7 +29,8 @@
                     isActive: true,
                     id: response.data.user.id
                 })
-                localStorage.setItem(TOKEN_USER, response.data.token)
+                cookies.set(TOKEN_USER, response.data.token)
+
                 router.push({ name: 'profile', params: { nickName: response.data.user.nickName } })
             } else if (response.error?.statusCode === 429) {
                 alert.value = {

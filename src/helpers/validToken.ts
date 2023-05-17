@@ -1,9 +1,11 @@
 import jwtDecode from 'jwt-decode'
 import { TOKEN_USER } from '../constants/auth'
 import { IPayloadToken, IPayloadVerifyToken } from '../models/payloadToken'
+import { useCookies } from 'vue3-cookies'
 
 const getAccessToken = (): string | null => {
-  const userToken = window.localStorage.getItem(TOKEN_USER)
+  const { cookies } = useCookies()
+  const userToken = cookies.get(TOKEN_USER)
   if (!userToken) {
     return null
   }
@@ -28,7 +30,8 @@ const getDataFromToken = (token:string):IPayloadVerifyToken => {
 }
 
 const logout = () => {
-  window.localStorage.removeItem(TOKEN_USER)
+  const { cookies } = useCookies()
+  cookies.remove(TOKEN_USER)
 }
 
 export {
